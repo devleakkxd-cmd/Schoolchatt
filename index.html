@@ -144,7 +144,7 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 .afbtn{margin-left:auto;padding:6px 14px;background:#fff;color:#000;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;}
 
 /* FRIENDS CONTENT */
-.frc{flex:1;display:flex;overflow:hidden;}
+.frc{flex:1;display:flex;overflow:hidden;min-width:0;}
 .est{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;text-align:center;padding:40px;}
 .esi{font-size:56px;}.et{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#fff;}
 .es{font-size:14px;color:var(--mu);max-width:280px;line-height:1.6;}
@@ -605,6 +605,7 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
       <span class="mtit" id="chdr-name" style="cursor:pointer;"></span>
     </div>
     <div class="mhdr hid" id="shdr">
+      <button class="ibtn" id="shdr-back" onclick="mobBackFromChat()" style="display:none;margin-right:4px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="width:18px;height:18px;stroke:var(--mu)"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
       <span id="shdr-ico" style="font-size:16px;color:var(--mu);margin-right:2px;">#</span>
       <span class="mtit" id="shdr-name">general</span>
     </div>
@@ -616,7 +617,7 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 
     <!-- FRIENDS VIEW -->
     <div class="frc" id="frc">
-      <div id="tv" style="flex:1;overflow-y:auto;padding:20px;"></div>
+      <div id="tv" style="flex:1;overflow-y:auto;padding:20px;min-width:0;"></div>
       <div class="afp" id="afp">
         <h2>Add Friend</h2>
         <p>You can add friends with their SchoolChat username. Search below.</p>
@@ -899,9 +900,18 @@ let cAv=null;
 function prevAv(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{cAv=ev.target.result;document.getElementById('avp').innerHTML=`<img src="${cAv}" alt="">`;};r.readAsDataURL(f);}
 function chkU(){const v=document.getElementById('ui').value,n=document.getElementById('un');const lo=v.length>=3&&v.length<=9,co=/^[a-zA-Z0-9]*$/.test(v),tk=ga().find(a=>a.username&&a.username.toLowerCase()===v.toLowerCase());setr('rl1',lo);setr('rl2',co);setr('rl3',!tk);if(!v){n.textContent='';return;}if(tk){n.textContent='✗ Username taken';n.className='inote e';}else if(v.length<3){n.textContent='Too short';n.className='inote e';}else if(lo&&co){n.textContent='✓ Available!';n.className='inote g';}else n.textContent='';}
 function setr(id,p){const e=document.getElementById(id);if(p)e.classList.add('pass');else e.classList.remove('pass');}
-function createAcc(){const em=document.getElementById('se').value.trim(),ps=document.getElementById('pi').value,un=document.getElementById('ui').value;if(un.length<3){t2('Username must be at least 3 characters','e');return;}if(un.length>9){t2('Username too long','e');return;}if(!/^[a-zA-Z0-9]+$/.test(un)){t2('Letters and numbers only','e');return;}const acc=ga();if(acc.find(a=>a.username&&a.username.toLowerCase()===un.toLowerCase())){t2('Username already taken','e');return;}const u={email:em,pass:ps,username:un,displayName:un,avatar:cAv||null,banner:null,bio:'',displayNameChangedAt:0,usernameChangedAt:0};acc.push(u);sa(acc);t2('Account created! 🎉','s');setTimeout(()=>enterChat(u),1000);}
+function createAcc(){const em=document.getElementById('se').value.trim(),ps=document.getElementById('pi').value,un=document.getElementById('ui').value;if(un.length<3){t2('Username must be at least 3 characters','e');return;}if(un.length>9){t2('Username too long','e');return;}if(!/^[a-zA-Z0-9]+$/.test(un)){t2('Letters and numbers only','e');return;}const acc=ga();if(acc.find(a=>a.username&&a.username.toLowerCase()===un.toLowerCase())){t2('Username already taken','e');return;}const u={email:em,pass:ps,username:un,displayName:un,avatar:null,banner:null,bio:'',displayNameChangedAt:0,usernameChangedAt:0};
+  const finalUser={...u,avatar:cAv||null};
+  acc.push(finalUser);sa(acc);
+  // publish to shared user registry on Ably
+  const _tmp=new Ably.Realtime({key:ABLY_KEY});
+  _tmp.connection.once('connected',()=>{
+    _tmp.channels.get('sc-users').publish('register',{username:un,displayName:un,bio:'',avatar:null});
+    _tmp.close();
+  });
+  t2('Account created! 🎉','s');setTimeout(()=>enterChat({...u,avatar:cAv||null}),1000);}
 function doLogin(){const em=document.getElementById('le').value.trim(),ps=document.getElementById('lp').value;const acc=ga().find(a=>a.email.toLowerCase()===em.toLowerCase()&&a.pass===ps);if(!acc){document.getElementById('lpn').textContent='✗ Incorrect email or password';document.getElementById('lpn').className='inote e';return;}if(document.getElementById('remember-me').checked){localStorage.setItem('sc_remember',JSON.stringify({email:acc.email,pass:acc.pass}));}t2(`Welcome back, ${acc.displayName||acc.username}! 👋`,'s');setTimeout(()=>enterChat(acc),1000);}
-function logout(){if(ablyClient){try{ablyClient.close();}catch(e){}ablyClient=null;}localStorage.removeItem('sc_remember');CU=null;activeChan=null;activeType=null;activePeer=null;curSrvId=null;document.getElementById('pwrd').style.display='';show('scr-splash');}
+function logout(){if(ablyClient){try{ablyClient.close();}catch(e){}ablyClient=null;}localStorage.removeItem('sc_remember');CU=null;activeChan=null;activeType=null;activePeer=null;curSrvId=null;document.getElementById('pwrd').style.display='';document.getElementById('mob-nav').style.display='none';document.getElementById('slide-panel').style.display='none';show('scr-splash');}
 
 /* ENTER CHAT */
 function enterChat(u){
@@ -928,6 +938,17 @@ function enterChat(u){
     notify.subscribe('hand-raise',m=>{
       const srv=gsvr().find(s=>s.id===m.data.srvId);
       if(srv&&srv.owner===CU.username){showHandRaiseAlert(m.data.from,m.data.srvId,m.data.chId);}
+    });
+  });
+  // Show mobile nav now that we're logged in
+  const mn=document.getElementById('mob-nav');mn.style.display='flex';
+  const sp=document.getElementById('slide-panel');sp.style.display='flex';
+  const so=document.getElementById('slide-ov');so.style.display='';
+  // Publish user to global registry (for cross-device search)
+  ablyClient.connection.once('connected',()=>{
+    ablyClient.channels.get('sc-users').publish('register',{
+      username:CU.username,displayName:CU.displayName||CU.username,
+      avatar:null,bio:CU.bio||''
     });
   });
   goFr();renderRail();
@@ -1006,15 +1027,35 @@ function doSrch(){
   const v=document.getElementById('afi').value.trim();
   if(!v){t2('Enter a username','e');return;}
   if(v.toLowerCase()===CU.username.toLowerCase()){t2("You can't add yourself!",'e');return;}
-  const target=ga().find(a=>a.username.toLowerCase()===v.toLowerCase());
   const res=document.getElementById('afr');
-  if(!target){res.className='afrs';res.innerHTML=`<div style="flex:1;font-size:14px;color:var(--red);">✗ No user found. Check the spelling.</div>`;return;}
+  res.className='afrs';res.innerHTML='<div style="flex:1;font-size:13px;color:var(--mu);">🔍 Searching...</div>';
+  // Search local first, then Ably global registry
+  const localTarget=ga().find(a=>a.username.toLowerCase()===v.toLowerCase());
+  if(localTarget){_showSearchResult(localTarget);return;}
+  // Check Ably history for cross-device users
+  const ch=ablyClient.channels.get('sc-users');
+  ch.history({limit:200},(err,page)=>{
+    if(err){res.innerHTML='<div style="flex:1;font-size:14px;color:var(--red);">Search failed. Try again.</div>';return;}
+    const all=page.items.map(m=>m.data).filter(d=>d&&d.username);
+    const found=all.find(d=>d.username.toLowerCase()===v.toLowerCase());
+    if(!found){res.innerHTML='<div style="flex:1;font-size:14px;color:var(--red);">✗ User not found. Make sure the spelling is exactly right.</div>';return;}
+    // Cache in local storage for future
+    const localAccs=ga();
+    if(!localAccs.find(a=>a.username===found.username)){
+      localAccs.push({username:found.username,displayName:found.displayName||found.username,avatar:null,bio:found.bio||'',email:'',pass:''});
+      sa(localAccs);
+    }
+    _showSearchResult(found);
+  });
+}
+function _showSearchResult(target){
+  const res=document.getElementById('afr');
   const mf=gfr(CU.username);
-  if(mf.includes(target.username)){res.className='afrs';res.innerHTML=`<div class="afrav">${target.avatar?`<img src="${target.avatar}">`:'🎓'}</div><div class="afri"><div class="afrn">${target.displayName||target.username}</div><div class="afrs2">Already friends!</div></div>`;return;}
+  if(mf.includes(target.username)){res.className='afrs';res.innerHTML=`<div class="afrav">${target.avatar?`<img src="${target.avatar}">`:'🎓'}</div><div class="afri"><div class="afrn">${target.displayName||target.username}</div><div class="afrs2">Already friends! 🎉</div></div>`;return;}
   const tp=gpnd(target.username);
-  if(tp.find(r=>r.from===CU.username)){res.className='afrs';res.innerHTML=`<div class="afrav">${target.avatar?`<img src="${target.avatar}">`:'🎓'}</div><div class="afri"><div class="afrn">${target.displayName||target.username}</div><div class="afrs2">Request already sent!</div></div>`;return;}
+  if(tp.find&&tp.find(r=>r.from===CU.username)){res.className='afrs';res.innerHTML=`<div class="afrav">${target.avatar?`<img src="${target.avatar}">`:'🎓'}</div><div class="afri"><div class="afrn">${target.displayName||target.username}</div><div class="afrs2">Request already sent!</div></div>`;return;}
   res.className='afrs';
-  res.innerHTML=`<div class="afrav">${target.avatar?`<img src="${target.avatar}">`:'🎓'}</div><div class="afri"><div class="afrn">${target.displayName||target.username}</div><div class="afrs2">SchoolChat User</div></div><button class="afab" onclick="confAdd('${target.username}')">Add Friend</button>`;
+  res.innerHTML=`<div class="afrav">${target.avatar?`<img src="${target.avatar}">`:'🎓'}</div><div class="afri"><div class="afrn">${target.displayName||target.username}</div><div class="afrs2">SchoolChat User · <span style="color:#aaa;">@${target.username}</span></div></div><button class="afab" onclick="confAdd('${target.username}')">Add Friend</button>`;
 }
 function confAdd(uname){
   const target=ga().find(a=>a.username===uname);if(!target)return;
@@ -1054,7 +1095,7 @@ function openDM(acc){
 function appendMsg(data,scroll){
   const msgs=document.getElementById('msgs');
   const isMe=data.from===CU.username;
-  const acc=ga().find(a=>a.username===data.from)||{username:data.from,avatar:null,displayName:data.from};
+  const acc=ga().find(a=>a.username===data.from)||{username:data.from,avatar:data.avatar||null,displayName:data.displayName||data.from};
   const time=new Date(data.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
   const showFull=data.from!==lastMsgUser;lastMsgUser=data.from;
   const renderText=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/@([a-zA-Z0-9]{3,9})/g,'<span class="mention">@$1</span>');
@@ -1084,8 +1125,10 @@ function mobBackFromChat(){
 function showMobBack(show){
   const b=document.getElementById('chdr-back');
   if(b)b.style.display=(show&&isMobile())?'flex':'none';
+  const b2=document.getElementById('shdr-back');
+  if(b2)b2.style.display=(show&&isMobile())?'flex':'none';
 }
-function sendMsg(){const inp=document.getElementById('typinp'),text=inp.value.trim();if(!text||!activeChan)return;inp.value='';inp.style.height='auto';activeChan.publish('msg',{from:CU.username,text,ts:Date.now(),avatar:CU.avatar||null,displayName:CU.displayName||CU.username});}
+function sendMsg(){const inp=document.getElementById('typinp'),text=inp.value.trim();if(!text||!activeChan)return;inp.value='';inp.style.height='auto';activeChan.publish('msg',{from:CU.username,text,ts:Date.now(),displayName:CU.displayName||CU.username});}
 function msgKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
 
@@ -1189,6 +1232,7 @@ function openSrvTextCh(chId,chName){
   msgs.innerHTML='<div style="text-align:center;font-size:12px;color:var(--mu2);padding:20px;">Loading...</div>';
   activeChan.history({limit:50},(err,page)=>{msgs.innerHTML='';if(err)return;lastMsgUser='';[...page.items].reverse().forEach(m=>appendMsg(m.data,false));scrollBottom();});
   activeChan.subscribe('msg',m=>{appendMsg(m.data,true);});
+  showMobBack(true);
   // Update sidebar active
   const srv=gsvr().find(s=>s.id===curSrvId);if(srv)renderServerChannels(srv);
   document.getElementById('typinp').focus();
@@ -1424,9 +1468,12 @@ function createSrv(){
 }
 function joinSrv(){
   const inp=document.getElementById('ji').value.trim();if(!inp){t2('Please enter an invite link','e');return;}
-  const match=inp.match(/invite\/([a-zA-Z0-9\-_]+)/i);
-  const code=match?match[1].toLowerCase():inp.toLowerCase();
-  const all=gsvr(),srv=all.find(s=>s.inviteCode===code||s.inviteCode===inp);
+  // Accept full URL or just the code
+  let code=inp.trim();
+  const m=inp.match(/invite\/([a-zA-Z0-9\-_\.]+)/i);
+  if(m)code=m[1].replace(/\.html?$/i,'');
+  code=code.replace(/\.html?$/i,'').toLowerCase();
+  const all=gsvr(),srv=all.find(s=>s.inviteCode.toLowerCase()===code);
   if(!srv){t2('Invalid invite link — server not found','e');return;}
   const ids=gus(CU.username);
   if(ids.includes(srv.id)){t2("You're already in this server!",'e');return;}
@@ -1610,8 +1657,8 @@ window.addEventListener('DOMContentLoaded',()=>{if(!tryAutoLogin())show('scr-spl
 document.addEventListener('click',e=>{if(!e.target.closest('#ctx-menu'))hideCtx();});
 </script>
 <!-- MOBILE SLIDE PANEL (sidebar) -->
-<div class="slide-overlay" id="slide-ov" onclick="closeSlidePanelFn()"></div>
-<div class="slide-panel" id="slide-panel">
+<div class="slide-overlay" id="slide-ov" style="display:none;" onclick="closeSlidePanelFn()"></div>
+<div class="slide-panel" id="slide-panel" style="display:none;">
   <div class="slide-head">
     <div class="slide-title" id="slide-title">Messages</div>
     <button class="slide-close-btn" onclick="closeSlidePanelFn()">✕</button>
@@ -1624,7 +1671,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('#ctx-menu'))hideCtx(
 </div>
 
 <!-- MOBILE BOTTOM NAV -->
-<div class="mob-nav" id="mob-nav">
+<div class="mob-nav" id="mob-nav" style="display:none;">
   <button class="mob-nav-btn act" id="mnb-friends" onclick="mobNav('friends',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     Friends
