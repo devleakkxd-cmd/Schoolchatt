@@ -44,13 +44,20 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 .avph{font-size:34px;}
 .avc{position:absolute;bottom:2px;right:2px;width:26px;height:26px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
 .avc svg{width:12px;height:12px;stroke:#000;}
-.avh{font-size:11px;color:var(--mu);margin-top:7px;}
+.inote{font-size:12px;margin-top:5px;min-height:16px;color:var(--mu);}.inote.e{color:var(--red);}.inote.g{color:#ccc;}
 #avf{display:none;}
 .rules{margin:6px 0 14px;padding:0;list-style:none;}
 .rules li{font-size:12px;color:var(--mu2);display:flex;align-items:center;gap:6px;margin-bottom:4px;}
 .rules li.pass{color:#aaa;}
 .rules li::before{content:'○';font-size:10px;}
 .rules li.pass::before{content:'●';}
+
+/* LOADING OVERLAY */
+.load-ov{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.load-ov.hid{display:none;}
+.load-spin{width:40px;height:40px;border:3px solid var(--b);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-txt{font-size:14px;color:var(--mu);}
 
 /* TOAST */
 .tst{position:fixed;bottom:60px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s2);border:1px solid var(--b);padding:11px 24px;border-radius:999px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none;}
@@ -211,19 +218,11 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 .vc-empty{text-align:center;}
 .vc-empty-ico{font-size:48px;margin-bottom:12px;}
 .vc-empty-txt{font-size:14px;color:var(--mu);}
-.vc-participants{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;}
-.vc-part{display:flex;flex-direction:column;align-items:center;gap:8px;}
-.vc-part-av{width:80px;height:80px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden;border:3px solid transparent;}
-.vc-part-av img{width:100%;height:100%;object-fit:cover;}
-.vc-part-name{font-size:12px;color:#ccc;font-weight:600;}
-.vc-part-muted{font-size:10px;color:var(--red);}
 .vc-bar{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 20px;border-top:1px solid var(--b2);background:#000;}
 .vc-btn{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:20px;transition:background .2s,transform .15s;}
 .vc-btn:active{transform:scale(.92);}
 .vc-btn.mic-on{background:var(--s3);}
 .vc-btn.mic-off{background:var(--red);}
-.vc-btn.hand{background:var(--s3);}
-.vc-btn.hand.raised{background:#f59e0b;}
 .vc-btn.leave{background:var(--red);}
 .vc-btn svg{width:22px;height:22px;}
 
@@ -253,42 +252,14 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 #sif{display:none;}
 .ji{width:100%;padding:13px 16px;background:var(--s3);border:1.5px solid var(--b);border-radius:10px;color:var(--tx);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;margin:14px 0 6px;}
 .ji:focus{border-color:rgba(255,255,255,.4);}
-.jn{font-size:12px;color:var(--mu);margin-bottom:10px;}
-
-/* SERVER SETTINGS */
-#sset-mov{z-index:300;}
-.sset-box{background:#111;border:1px solid var(--b);border-radius:20px;width:100%;max-width:820px;height:80vh;display:flex;overflow:hidden;position:relative;}
-.sset-nav{width:220px;min-width:220px;background:#0a0a0a;border-right:1px solid var(--b2);padding:20px 12px;display:flex;flex-direction:column;gap:2px;}
-.sset-nav-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu2);padding:0 8px;margin-bottom:8px;}
-.sset-tab{padding:9px 12px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;color:var(--mu);transition:background .15s,color .15s;}
-.sset-tab:hover{background:var(--s2);color:#ccc;}
-.sset-tab.act{background:var(--s3);color:#fff;}
-.sset-content{flex:1;overflow-y:auto;padding:32px;}
-.sset-section{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:20px;}
-.sset-card{background:var(--s2);border:1px solid var(--b);border-radius:14px;padding:20px;margin-bottom:16px;}
-.sset-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px;}
-.sset-inp{width:100%;padding:11px 14px;background:var(--s3);border:1.5px solid var(--b);border-radius:10px;color:var(--tx);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;margin-bottom:10px;}
-.sset-inp:focus{border-color:rgba(255,255,255,.4);}
-.sset-btn{padding:10px 20px;background:#fff;color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
-.sset-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--s3);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:18px;}
 
 /* PROFILE MODAL */
-#pm-mov{z-index:500;}
+#pm-mov{z-index:300;}
 .pmb{background:#111;border:1px solid var(--b);border-radius:22px;width:100%;max-width:440px;position:relative;overflow:hidden;}
-.pm-banner{height:100px;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);position:relative;cursor:pointer;overflow:hidden;}
-.pm-banner img{width:100%;height:100%;object-fit:cover;}
-.pm-banner-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;}
-.pm-banner:hover .pm-banner-overlay{opacity:1;}
-.pm-banner-overlay span{font-size:13px;color:#fff;font-weight:600;}
-#pm-banner-file{display:none;}
-.pm-av-wrap{position:absolute;bottom:-38px;left:24px;cursor:pointer;}
+.pm-av-wrap{padding:20px 24px 0;cursor:pointer;display:inline-block;}
 .pm-av{width:76px;height:76px;border-radius:50%;border:4px solid #111;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden;}
 .pm-av img{width:100%;height:100%;object-fit:cover;}
-.pm-av-edit{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;}
-.pm-av-wrap:hover .pm-av-edit{opacity:1;}
-.pm-av-edit svg{width:22px;height:22px;stroke:#fff;}
-#pmavf{display:none;}
-.pm-body{padding:52px 24px 24px;}
+.pm-body{padding:16px 24px 24px;}
 .pm-username{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:2px;}
 .pm-dispname{font-size:13px;color:var(--mu);margin-bottom:20px;}
 .pm-sec{background:var(--s2);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;margin-bottom:12px;}
@@ -299,8 +270,6 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 .pm-field-val{font-size:14px;font-weight:600;color:#ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pm-edit-btn{padding:6px 14px;background:transparent;border:1.5px solid rgba(255,255,255,.15);border-radius:8px;color:#ccc;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
 .pm-edit-btn:hover{border-color:rgba(255,255,255,.35);color:#fff;}
-.pm-edit-btn:disabled{opacity:.35;cursor:not-allowed;}
-.pm-cooldown{font-size:11px;color:var(--mu);margin-top:6px;}
 .pm-edit-row{margin-top:12px;display:none;gap:8px;align-items:center;}
 .pm-edit-row.open{display:flex;}
 .pm-inp{flex:1;background:var(--s3);border:1.5px solid rgba(255,255,255,.12);border-radius:8px;padding:9px 12px;color:#fff;font-size:14px;outline:none;}
@@ -312,15 +281,12 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 /* VIEW OTHER PROFILE */
 #vp-mov{z-index:600;}
 .vpb{background:#111;border:1px solid var(--b);border-radius:22px;width:100%;max-width:380px;position:relative;overflow:hidden;}
-.vp-banner{height:90px;position:relative;overflow:hidden;}
-.vp-banner-bg{width:100%;height:100%;object-fit:cover;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);}
-.vp-av-wrap{position:absolute;bottom:-36px;left:20px;}
-.vp-av{width:72px;height:72px;border-radius:50%;border:4px solid #111;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;}
+.vp-av{width:72px;height:72px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;margin:20px auto 12px;}
 .vp-av img{width:100%;height:100%;object-fit:cover;}
-.vp-body{padding:44px 20px 20px;}
+.vp-body{padding:0 20px 20px;text-align:center;}
 .vp-username{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:2px;}
 .vp-dn{font-size:13px;color:var(--mu);margin-bottom:12px;}
-.vp-bio{font-size:13px;color:#bbb;line-height:1.5;background:var(--s2);border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.vp-bio{font-size:13px;color:#bbb;line-height:1.5;background:var(--s2);border-radius:10px;padding:12px 14px;margin-bottom:12px;text-align:left;}
 .vp-dm-btn{width:100%;padding:11px;background:#fff;color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;}
 
 /* MOBILE STYLES */
@@ -351,11 +317,10 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
   .mob-dm-info{flex:1;min-width:0;}
   .mob-dm-name{font-size:15px;font-weight:600;color:#ddd;}
   .mob-you-panel.active{display:flex!important;position:fixed;top:0;left:62px;right:0;bottom:56px;z-index:20;background:#111;flex-direction:column;overflow-y:auto;}
-  .mob-you-banner{height:100px;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);position:relative;flex-shrink:0;}
-  .mob-you-av-wrap{position:absolute;bottom:-32px;left:16px;}
-  .mob-you-av{width:66px;height:66px;border-radius:50%;border:4px solid #111;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:26px;overflow:hidden;}
+  .mob-you-banner{height:80px;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);flex-shrink:0;}
+  .mob-you-body{padding:16px;}
+  .mob-you-av{width:66px;height:66px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:26px;overflow:hidden;margin-bottom:8px;}
   .mob-you-av img{width:100%;height:100%;object-fit:cover;}
-  .mob-you-body{padding:44px 16px 24px;}
   .mob-you-name{font-family:"Sora",sans-serif;font-size:20px;font-weight:800;color:#fff;}
   .mob-you-tag{font-size:13px;color:var(--mu);margin-bottom:20px;}
   .mob-you-btn{width:100%;padding:13px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:none;margin-bottom:10px;}
@@ -373,22 +338,24 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
   .mob-chat-send{width:40px;height:40px;border-radius:50%;background:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .mob-chat-send svg{width:18px;height:18px;stroke:#000;}
 }
-
-.mob-nav, .mob-rail, .mob-dm-panel, .mob-you-panel, .mob-chat {display: none;}
-.mob-dm-panel.active {display: flex !important;}
-.mob-you-panel.active {display: flex !important;}
-.mob-chat.open {display: flex !important;}
-
+.mob-nav,.mob-rail,.mob-dm-panel,.mob-you-panel,.mob-chat{display:none;}
+.mob-dm-panel.active{display:flex!important;}
+.mob-you-panel.active{display:flex!important;}
+.mob-chat.open{display:flex!important;}
 .pwrd{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--mu2);z-index:20;letter-spacing:1px;}
-.tst{position:fixed;bottom:60px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s2);border:1px solid var(--b);padding:11px 24px;border-radius:999px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none;}
-.tst.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 <div class="bgrid"></div>
 
+<!-- LOADING OVERLAY -->
+<div class="load-ov" id="load-ov">
+  <div class="load-spin"></div>
+  <div class="load-txt" id="load-txt">Connecting...</div>
+</div>
+
 <!-- SPLASH -->
-<div class="scr" id="scr-splash">
+<div class="scr hid" id="scr-splash">
   <div class="card" style="text-align:center;">
     <div class="la" style="margin-bottom:32px;">
       <div class="lico"><svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2"><path d="M21 15C21 16.6 19.6 18 18 18H15L12 21L9 18H6C4.4 18 3 16.6 3 15V9C3 7.4 4.4 6 6 6H18C19.6 6 21 7.4 21 9V15Z"/><circle cx="8.5" cy="12" r="1" fill="black"/><circle cx="12" cy="12" r="1" fill="black"/><circle cx="15.5" cy="12" r="1" fill="black"/></svg></div>
@@ -409,10 +376,10 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
     <div class="iw"><label>Email</label><input type="email" id="le" placeholder="your@email.com"><div class="inote" id="lpn"></div></div>
     <div class="iw"><label>Password</label><input type="password" id="lp" placeholder="Your password"></div>
     <div style="display:flex;align-items:center;gap:8px;margin-top:8px;margin-bottom:4px;">
-      <input type="checkbox" id="remember-me" style="width:16px;height:16px;cursor:pointer;">
+      <input type="checkbox" id="remember-me" style="width:16px;height:16px;cursor:pointer;" checked>
       <label for="remember-me" style="font-size:13px;color:var(--mu);cursor:pointer;">Remember me</label>
     </div>
-    <button class="btn bw" onclick="doLogin()" style="margin-top:10px;">Log In →</button>
+    <button class="btn bw" id="login-btn" onclick="doLogin()" style="margin-top:10px;">Log In →</button>
     <div class="swl">No account? <span onclick="show('scr-signup')">Sign up</span></div>
   </div>
 </div>
@@ -434,8 +401,6 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
     <div class="bkb" onclick="show('scr-signup')"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></div>
     <div class="la"><div class="albl">Step 2 of 3</div><div class="atit" style="font-size:26px;">Passkey</div></div>
     <div class="iw"><label>Create Password</label><input type="password" id="pi" placeholder="Min 6 characters" oninput="chkStr()"></div>
-    <div class="pbar"><div class="pfil" id="pf"></div></div>
-    <div class="plbl" id="pl">Strength: —</div>
     <div class="iw"><label>Confirm Password</label><input type="password" id="cp2" placeholder="Repeat password" oninput="chkCnf()"><div class="inote" id="cn"></div></div>
     <button class="btn bw" onclick="goUser()">Continue →</button>
   </div>
@@ -451,12 +416,12 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
         <div class="avi" id="avp"><span class="avph">🎓</span></div>
         <div class="avc"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
       </div>
-      <div class="avh">Tap to set profile picture</div>
+      <div style="font-size:11px;color:var(--mu);margin-top:7px;">Tap to set profile picture</div>
       <input type="file" id="avf" accept="image/*" onchange="prevAv(event)">
     </div>
     <div class="iw"><label>Username</label><input type="text" id="ui" placeholder="3 to 9 characters" maxlength="9" oninput="chkU()"><div class="inote" id="un"></div></div>
     <ul class="rules"><li id="rl1">Between 3 and 9 characters</li><li id="rl2">Letters and numbers only</li><li id="rl3">Username not already taken</li></ul>
-    <button class="btn bw" onclick="createAcc()">Create Account ✓</button>
+    <button class="btn bw" id="create-btn" onclick="createAcc()">Create Account ✓</button>
   </div>
 </div>
 
@@ -480,7 +445,7 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
       <div class="sbh">
         <div class="srchb">
           <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input type="text" placeholder="Find or start a conversation">
+          <input type="text" placeholder="Find or start a conversation" oninput="filterDMs(this.value)">
         </div>
       </div>
       <div class="sblbl">Direct Messages</div>
@@ -529,11 +494,6 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
       <span id="shdr-ico" style="font-size:16px;color:var(--mu);margin-right:2px;">#</span>
       <span class="mtit" id="shdr-name">general</span>
     </div>
-    <div class="mhdr hid" id="vchdr">
-      <span style="font-size:16px;">🔊</span>
-      <span class="mtit" id="vc-ch-name">Voice</span>
-      <span style="margin-left:8px;font-size:12px;color:var(--mu);" id="vc-status">Not connected</span>
-    </div>
 
     <div class="frc" id="frc">
       <div id="tv" style="flex:1;overflow-y:auto;padding:20px;min-width:0;"></div>
@@ -559,47 +519,28 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
     <div class="srvm hid" id="srvm"></div>
 
     <div class="vcv hid" id="vcv">
-      <div class="vc-top" id="vc-top"><div class="vc-empty"><div class="vc-empty-ico">🔊</div><div class="vc-empty-txt">Join to start talking</div></div></div>
-      <div class="vc-bar">
-        <button class="vc-btn mic-on" id="vc-mic-btn" onclick="toggleMic()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        </button>
-        <button class="vc-btn hand" id="vc-hand-btn" onclick="raiseHand()">✋</button>
-        <button class="vc-btn leave" onclick="leaveVC()">
-          <svg viewBox="0 0 24 24" fill="white" width="22" height="22"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-        </button>
-      </div>
+      <div class="vc-top" id="vc-top"><div class="vc-empty"><div class="vc-empty-ico">🔊</div><div class="vc-empty-txt">Voice channels coming soon</div></div></div>
     </div>
   </div>
 </div>
 
-<div class="ctx hid" id="ctx-menu"></div>
 <div class="tst" id="tst"></div>
 <div class="pwrd" id="pwrd">Powered by SchoolChat</div>
 
 <!-- MOBILE UI -->
 <div class="mob-nav" id="mob-nav" style="display:none;">
   <button class="mob-nav-btn act" id="mnb-home" onclick="mobSetTab('home',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Home
-  </button>
-  <button class="mob-nav-btn" id="mnb-notif" onclick="mobSetTab('notif',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-    Notifications
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
   </button>
   <button class="mob-nav-btn" id="mnb-you" onclick="mobSetTab('you',this)">
-    <div id="mob-nav-av" style="width:26px;height:26px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:14px;">🎓</div>
-    You
+    <div id="mob-nav-av" style="width:26px;height:26px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:14px;">🎓</div>You
   </button>
 </div>
 
 <div class="mob-rail" id="mob-rail" style="display:none;">
   <div class="mob-ri mob-ri-home act" id="mob-ri-home" onclick="mobShowHome()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="22" height="22">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
   </div>
-  <div class="mob-rsep" id="mob-rsep" style="display:none;"></div>
   <div id="mob-ris"></div>
   <div style="flex:1;"></div>
   <div class="mob-radd" onclick="openSM()">+</div>
@@ -618,12 +559,9 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 </div>
 
 <div class="mob-you-panel" id="mob-you-panel" style="display:none;">
-  <div class="mob-you-banner" id="mob-you-banner">
-    <div class="mob-you-av-wrap">
-      <div class="mob-you-av" id="mob-you-av">🎓</div>
-    </div>
-  </div>
+  <div class="mob-you-banner" id="mob-you-banner"></div>
   <div class="mob-you-body">
+    <div class="mob-you-av" id="mob-you-av">🎓</div>
     <div class="mob-you-name" id="mob-you-name">Username</div>
     <div class="mob-you-tag" id="mob-you-tag">@username</div>
     <button class="mob-you-btn mob-you-edit" onclick="openProfile()">✏️ Edit Profile</button>
@@ -633,868 +571,15 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 
 <div class="mob-chat" id="mob-chat" style="display:none;">
   <div class="mob-chat-hdr">
-    <button class="mob-chat-back" onclick="mobCloseChatView()">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    </button>
+    <button class="mob-chat-back" onclick="mobCloseChatView()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
     <div class="mob-chat-title" id="mob-chat-title">Chat</div>
   </div>
   <div class="mob-chat-msgs" id="mob-chat-msgs"></div>
   <div class="mob-chat-input-wrap">
     <textarea class="mob-chat-inp" id="mob-chat-inp" placeholder="Message..." rows="1" onkeydown="mobMsgKey(event)" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-    <button class="mob-chat-send" onclick="mobSendMsg()">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+    <button class="mob-chat-send" onclick="mobSendMsg()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
   </div>
 </div>
-
-<script>
-// ============================================
-// COMPLETE FIXED CODE
-// ============================================
-
-const ABLY_KEY = 'vuqWTg.37gGdQ:ls1i6xUxZGMHPkS8tO-dWdovGgUAwZYj0tS0tvFZl80';
-let ablyClient = null, activeChan = null, activeType = null, activePeer = null, CU = null;
-let curSrvId = null, lastMsgUser = '', newChType = 'text';
-let vcMuted = false, vcStream = null, vcHandRaised = false;
-
-// Storage helpers
-const ga = () => { try { return JSON.parse(localStorage.getItem('sc_a') || '[]'); } catch(e) { return []; } };
-const sa = (a) => localStorage.setItem('sc_a', JSON.stringify(a));
-const gfr = (u) => { try { return JSON.parse(localStorage.getItem('sc_f_' + u) || '[]'); } catch(e) { return []; } };
-const sfr = (u, a) => localStorage.setItem('sc_f_' + u, JSON.stringify(a));
-const gpnd = (u) => { try { return JSON.parse(localStorage.getItem('sc_p_' + u) || '[]'); } catch(e) { return []; } };
-const spnd = (u, a) => localStorage.setItem('sc_p_' + u, JSON.stringify(a));
-const gsvr = () => { try { return JSON.parse(localStorage.getItem('sc_s') || '[]'); } catch(e) { return []; } };
-const ssvr = (s) => localStorage.setItem('sc_s', JSON.stringify(s));
-const gus = (u) => { try { return JSON.parse(localStorage.getItem('sc_us_' + u) || '[]'); } catch(e) { return []; } };
-const sus = (u, a) => localStorage.setItem('sc_us_' + u, JSON.stringify(a));
-const gi = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-const gc = (n) => { const c = 'abcdefghijklmnopqrstuvwxyz0123456789'; return Array.from({ length: n }, () => c[Math.floor(Math.random() * c.length)]).join(''); };
-
-function t2(msg, tp = 's') {
-  const t = document.getElementById('tst');
-  t.textContent = msg;
-  t.className = `tst ${tp} show`;
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-function show(id) {
-  document.querySelectorAll('.scr').forEach(s => s.classList.add('hid'));
-  document.getElementById('cp').classList.add('hid');
-  document.getElementById('mob-nav').style.display = 'none';
-  document.getElementById('mob-rail').style.display = 'none';
-  document.getElementById(id).classList.remove('hid');
-}
-
-function tryAutoLogin() {
-  const saved = localStorage.getItem('sc_remember');
-  if (!saved) return false;
-  try {
-    const u = JSON.parse(saved);
-    const acc = ga().find(a => a.email === u.email && a.pass === u.pass);
-    if (acc) { enterChat(acc); return true; }
-  } catch(e) {}
-  localStorage.removeItem('sc_remember');
-  return false;
-}
-
-// Auth functions
-function chkE() {
-  const v = document.getElementById('se').value.trim();
-  const n = document.getElementById('sen');
-  const i = document.getElementById('se');
-  const tk = ga().find(a => a.email.toLowerCase() === v.toLowerCase());
-  if (!v) { n.textContent = ''; i.className = ''; return; }
-  if (tk) { n.textContent = '⚠ Email already registered'; n.className = 'inote e'; i.className = 'ei'; }
-  else { n.textContent = '✓ Looks good'; n.className = 'inote g'; i.className = 'oi'; }
-}
-
-function goPass() {
-  const v = document.getElementById('se').value.trim();
-  if (!v) { t2('Please enter your email', 'e'); return; }
-  if (!/^\S+@\S+\.\S+$/.test(v)) { t2('Invalid email', 'e'); return; }
-  if (ga().find(a => a.email.toLowerCase() === v.toLowerCase())) { t2('Email taken — log in instead', 'e'); return; }
-  show('scr-pass');
-}
-
-function chkStr() {
-  const v = document.getElementById('pi').value;
-  const f = document.getElementById('pf');
-  const l = document.getElementById('pl');
-  let s = 0;
-  if (v.length >= 6) s++;
-  if (/[A-Z]/.test(v)) s++;
-  if (/[0-9]/.test(v)) s++;
-  if (/[!@#$%^&*]/.test(v)) s++;
-  const m = [{ w: '0%', c: 'transparent', t: '—' }, { w: '30%', c: '#ff4040', t: 'Weak' }, { w: '55%', c: '#888', t: 'Fair' }, { w: '80%', c: '#aaa', t: 'Strong' }, { w: '100%', c: '#fff', t: 'Unbreakable 🔒' }];
-  f.style.width = m[s].w;
-  f.style.background = m[s].c;
-  l.textContent = 'Strength: ' + m[s].t;
-}
-
-function chkCnf() {
-  const p = document.getElementById('pi').value;
-  const c = document.getElementById('cp2').value;
-  const n = document.getElementById('cn');
-  const i = document.getElementById('cp2');
-  if (!c) { n.textContent = ''; i.className = ''; return; }
-  if (p === c) { n.textContent = '✓ Matches'; n.className = 'inote g'; i.className = 'oi'; }
-  else { n.textContent = '✗ No match'; n.className = 'inote e'; i.className = 'ei'; }
-}
-
-function goUser() {
-  const p = document.getElementById('pi').value;
-  const c = document.getElementById('cp2').value;
-  if (p.length < 6) { t2('Password must be 6+ characters', 'e'); return; }
-  if (p !== c) { t2('Passwords do not match', 'e'); return; }
-  show('scr-user');
-}
-
-let cAv = null;
-function prevAv(e) {
-  const f = e.target.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => { cAv = ev.target.result; document.getElementById('avp').innerHTML = `<img src="${cAv}" alt="">`; };
-  r.readAsDataURL(f);
-}
-
-function chkU() {
-  const v = document.getElementById('ui').value;
-  const n = document.getElementById('un');
-  const lo = v.length >= 3 && v.length <= 9;
-  const co = /^[a-zA-Z0-9]*$/.test(v);
-  const tk = ga().find(a => a.username && a.username.toLowerCase() === v.toLowerCase());
-  const setr = (id, p) => { const e = document.getElementById(id); if (p) e.classList.add('pass'); else e.classList.remove('pass'); };
-  setr('rl1', lo);
-  setr('rl2', co);
-  setr('rl3', !tk);
-  if (!v) { n.textContent = ''; return; }
-  if (tk) { n.textContent = '✗ Username taken'; n.className = 'inote e'; }
-  else if (v.length < 3) { n.textContent = 'Too short'; n.className = 'inote e'; }
-  else if (lo && co) { n.textContent = '✓ Available!'; n.className = 'inote g'; }
-  else n.textContent = '';
-}
-
-function createAcc() {
-  const em = document.getElementById('se').value.trim();
-  const ps = document.getElementById('pi').value;
-  const un = document.getElementById('ui').value;
-  if (un.length < 3) { t2('Username must be at least 3 characters', 'e'); return; }
-  if (un.length > 9) { t2('Username too long', 'e'); return; }
-  if (!/^[a-zA-Z0-9]+$/.test(un)) { t2('Letters and numbers only', 'e'); return; }
-  const acc = ga();
-  if (acc.find(a => a.username && a.username.toLowerCase() === un.toLowerCase())) { t2('Username already taken', 'e'); return; }
-  const u = { email: em, pass: ps, username: un, displayName: un, avatar: null, banner: null, bio: '', displayNameChangedAt: 0, usernameChangedAt: 0 };
-  const finalUser = { ...u, avatar: cAv || null };
-  acc.push(finalUser);
-  sa(acc);
-  t2('Account created! 🎉', 's');
-  setTimeout(() => enterChat({ ...u, avatar: cAv || null }), 1000);
-}
-
-function doLogin() {
-  const em = document.getElementById('le').value.trim();
-  const ps = document.getElementById('lp').value;
-  const acc = ga().find(a => a.email.toLowerCase() === em.toLowerCase() && a.pass === ps);
-  if (!acc) {
-    document.getElementById('lpn').textContent = '✗ Incorrect email or password';
-    document.getElementById('lpn').className = 'inote e';
-    return;
-  }
-  if (document.getElementById('remember-me').checked) {
-    localStorage.setItem('sc_remember', JSON.stringify({ email: acc.email, pass: acc.pass }));
-  }
-  t2(`Welcome back, ${acc.displayName || acc.username}! 👋`, 's');
-  setTimeout(() => enterChat(acc), 1000);
-}
-
-function logout() {
-  if (ablyClient) { try { ablyClient.close(); } catch(e) {} ablyClient = null; }
-  localStorage.removeItem('sc_remember');
-  CU = null;
-  activeChan = null;
-  curSrvId = null;
-  document.getElementById('cp').classList.add('hid');
-  document.getElementById('mob-nav').style.display = 'none';
-  document.getElementById('mob-rail').style.display = 'none';
-  show('scr-splash');
-}
-
-function enterChat(u) {
-  CU = u;
-  document.querySelectorAll('.scr').forEach(s => s.classList.add('hid'));
-  document.getElementById('cp').classList.remove('hid');
-  document.getElementById('pwrd').style.display = 'none';
-  document.getElementById('ubn').textContent = CU.displayName || CU.username;
-  const ubav = document.getElementById('ubav');
-  ubav.innerHTML = CU.avatar ? `<img src="${CU.avatar}">` : '🎓';
-  document.getElementById('sni').value = CU.username + "'s server";
-  
-  ablyClient = new Ably.Realtime({ key: ABLY_KEY, clientId: CU.username });
-  ablyClient.connection.on('connected', () => {
-    const notify = ablyClient.channels.get('notify-' + CU.username);
-    notify.subscribe('friend-request', m => { t2(`Friend request from ${m.data.from}!`, 's'); renderPndBadge(); });
-    notify.subscribe('ping', m => { showPing(m.data.text, m.data.from); });
-  });
-  
-  if (window.innerWidth <= 768) {
-    document.getElementById('mob-nav').style.display = 'flex';
-    document.getElementById('mob-rail').style.display = 'flex';
-    mobSetTab('home', document.getElementById('mnb-home'));
-    mobRenderRail();
-    mobRenderDMs();
-    if (CU) {
-      document.getElementById('mob-you-name').textContent = CU.displayName || CU.username;
-      document.getElementById('mob-you-tag').textContent = '@' + CU.username;
-      document.getElementById('mob-you-av').innerHTML = CU.avatar ? `<img src="${CU.avatar}">` : '🎓';
-      document.getElementById('mob-nav-av').innerHTML = CU.avatar ? `<img src="${CU.avatar}" style="width:100%;height:100%;object-fit:cover;">` : '🎓';
-    }
-  } else {
-    goFr();
-  }
-  renderRail();
-}
-
-function goFr() {
-  curSrvId = null;
-  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
-  activeChan = null;
-  activeType = null;
-  activePeer = null;
-  document.querySelectorAll('.ri').forEach(x => x.classList.remove('act'));
-  const riFr = document.getElementById('ri-fr');
-  if (riFr) riFr.classList.add('act');
-  document.getElementById('fsb').style.display = 'flex';
-  document.getElementById('ssb').style.display = 'none';
-  document.getElementById('fhdr').classList.remove('hid');
-  document.getElementById('chdr').classList.add('hid');
-  document.getElementById('shdr').classList.add('hid');
-  document.getElementById('vchdr').classList.add('hid');
-  document.getElementById('frc').style.display = 'flex';
-  document.getElementById('chatv').style.display = 'none';
-  document.getElementById('chatv').classList.add('hid');
-  document.getElementById('srvm').classList.add('hid');
-  document.getElementById('vcv').classList.add('hid');
-  renderDMs();
-  setT('online', document.getElementById('t-on'));
-  renderPndBadge();
-}
-
-function renderDMs() {
-  if (!CU) return;
-  const friends = gfr(CU.username);
-  const accounts = ga();
-  const dml = document.getElementById('dml');
-  dml.innerHTML = '';
-  if (!friends.length) {
-    dml.innerHTML = '<div style="padding:10px 14px;font-size:12px;color:var(--mu2);">No DMs yet.<br>Add friends to start chatting!</div>';
-    return;
-  }
-  friends.forEach(uname => {
-    const acc = accounts.find(a => a.username === uname);
-    if (!acc) return;
-    const d = document.createElement('div');
-    d.className = 'dmi';
-    d.innerHTML = `<div class="dav">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}<div class="sdot sof"></div></div><div class="din"><div class="dnm">${acc.displayName || acc.username}</div><div class="dpr">@${acc.username}</div></div>`;
-    d.onclick = () => openDM(acc);
-    dml.appendChild(d);
-  });
-}
-
-function setT(tab, el) {
-  document.querySelectorAll('.tp').forEach(x => x.classList.remove('act'));
-  if (el) el.classList.add('act');
-  const tv = document.getElementById('tv');
-  const afp = document.getElementById('afp');
-  if (tab === 'add-friend') {
-    tv.style.display = 'none';
-    afp.style.display = 'block';
-    return;
-  }
-  tv.style.display = 'block';
-  afp.style.display = 'none';
-  renderTV(tab);
-}
-
-function renderTV(tab) {
-  const tv = document.getElementById('tv');
-  if (!tv || !CU) { if (tv) tv.innerHTML = ''; return; }
-  const friends = gfr(CU.username);
-  const accounts = ga();
-  if (tab === 'online') {
-    tv.innerHTML = !friends.length ? `<div class="est"><div class="esi">🤝</div><div class="et">No friends yet!</div><div class="es">Use Add Friend to connect.</div></div>` : `<div class="est"><div class="esi">😴</div><div class="et">No one's online right now</div></div>`;
-    return;
-  }
-  if (tab === 'all') {
-    if (!friends.length) { tv.innerHTML = `<div class="est"><div class="esi">👥</div><div class="et">No friends yet</div><div class="es">Use Add Friend to get started!</div></div>`; return; }
-    let h = `<div class="fsl">ALL FRIENDS — ${friends.length}</div>`;
-    friends.forEach(uname => {
-      const acc = accounts.find(a => a.username === uname);
-      if (!acc) return;
-      h += `<div class="frr"><div class="frav" onclick="viewProfile('${uname}')">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}<div class="sdot sof" style="position:absolute;bottom:0;right:0;"></div></div><div class="fri2"><div class="frn" onclick="viewProfile('${uname}')">${acc.displayName || acc.username}</div><div class="frst">@${acc.username} · Offline</div></div><div class="fract"><div class="frb" onclick="openDM(${JSON.stringify({ username: acc.username, avatar: acc.avatar || null, displayName: acc.displayName || acc.username })})"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-width="2"><path d="M21 15C21 16.6 19.6 18 18 18H6L3 21V9C3 7.4 4.4 6 6 6H18C19.6 6 21 7.4 21 9V15Z"/></svg></div></div></div>`;
-    });
-    tv.innerHTML = h;
-    return;
-  }
-  if (tab === 'pending') {
-    const pend = gpnd(CU.username);
-    if (!pend.length) { tv.innerHTML = `<div class="est"><div class="esi">📭</div><div class="et">No Pending Requests</div></div>`; return; }
-    let h = `<div class="fsl">INCOMING — ${pend.length}</div>`;
-    pend.forEach((req, i) => {
-      const acc = accounts.find(a => a.username === req.from);
-      if (!acc) return;
-      h += `<div class="pr"><div class="frav">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="fri2"><div class="frn">${acc.displayName || acc.username}</div><div class="frst">@${acc.username}</div></div><div class="pact"><button class="pacc" onclick="accReq('${req.from}',${i})">Accept</button><button class="pdec" onclick="decReq(${i})">Decline</button></div></div>`;
-    });
-    tv.innerHTML = h;
-  }
-}
-
-function renderPndBadge() {
-  if (!CU) return;
-  const p = gpnd(CU.username);
-  const tPnd = document.getElementById('t-pnd');
-  tPnd.innerHTML = p.length ? `Pending <span style="background:#fff;color:#000;border-radius:999px;padding:0 5px;font-size:10px;margin-left:4px;">${p.length}</span>` : 'Pending';
-}
-
-function accReq(fromU, i) {
-  const mf = gfr(CU.username);
-  const tf = gfr(fromU);
-  if (!mf.includes(fromU)) mf.push(fromU);
-  if (!tf.includes(CU.username)) tf.push(CU.username);
-  sfr(CU.username, mf);
-  sfr(fromU, tf);
-  const p = gpnd(CU.username);
-  p.splice(i, 1);
-  spnd(CU.username, p);
-  t2(`You and ${fromU} are now friends! 🎉`, 's');
-  renderTV('pending');
-  renderPndBadge();
-  renderDMs();
-}
-
-function decReq(i) {
-  const p = gpnd(CU.username);
-  p.splice(i, 1);
-  spnd(CU.username, p);
-  renderTV('pending');
-  renderPndBadge();
-}
-
-function afCh() {
-  const v = document.getElementById('afi').value.trim();
-  document.getElementById('afb').disabled = !v;
-  document.getElementById('afr').classList.add('hid');
-}
-
-function doSrch() {
-  const v = document.getElementById('afi').value.trim();
-  if (!v) { t2('Enter a username', 'e'); return; }
-  if (v.toLowerCase() === CU.username.toLowerCase()) { t2("You can't add yourself!", 'e'); return; }
-  const res = document.getElementById('afr');
-  res.className = 'afrs';
-  res.innerHTML = '<div style="flex:1;font-size:13px;color:var(--mu);">🔍 Searching...</div>';
-  const localTarget = ga().find(a => a.username.toLowerCase() === v.toLowerCase());
-  if (localTarget) {
-    _showSearchResult(localTarget);
-    return;
-  }
-  t2('User not found. Make sure they have an account.', 'e');
-  res.innerHTML = '<div style="flex:1;font-size:14px;color:var(--red);">✗ User not found.</div>';
-}
-
-function _showSearchResult(target) {
-  const res = document.getElementById('afr');
-  const mf = gfr(CU.username);
-  if (mf.includes(target.username)) {
-    res.className = 'afrs';
-    res.innerHTML = `<div class="afrav">${target.avatar ? `<img src="${target.avatar}">` : '🎓'}</div><div class="afri"><div class="afrn">${target.displayName || target.username}</div><div class="afrs2">Already friends! 🎉</div></div>`;
-    return;
-  }
-  res.className = 'afrs';
-  res.innerHTML = `<div class="afrav">${target.avatar ? `<img src="${target.avatar}">` : '🎓'}</div><div class="afri"><div class="afrn">${target.displayName || target.username}</div><div class="afrs2">@${target.username}</div></div><button class="afab" onclick="confAdd('${target.username}')">Add Friend</button>`;
-}
-
-function confAdd(uname) {
-  const target = ga().find(a => a.username === uname);
-  if (!target) return;
-  const p = gpnd(uname);
-  p.push({ from: CU.username });
-  spnd(uname, p);
-  document.getElementById('afr').innerHTML = `<div class="afrav">${target.avatar ? `<img src="${target.avatar}">` : '🎓'}</div><div class="afri"><div class="afrn">${target.displayName || target.username}</div><div class="afrs2" style="color:#aaa;">✓ Friend request sent!</div></div>`;
-  t2(`Request sent to ${uname}!`, 's');
-  document.getElementById('afi').value = '';
-  document.getElementById('afb').disabled = true;
-}
-
-function openDM(acc) {
-  if (typeof acc === 'string') acc = JSON.parse(acc);
-  activeType = 'dm';
-  activePeer = acc.username;
-  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
-  document.getElementById('fhdr').classList.add('hid');
-  document.getElementById('chdr').classList.remove('hid');
-  document.getElementById('shdr').classList.add('hid');
-  document.getElementById('vchdr').classList.add('hid');
-  document.getElementById('frc').style.display = 'none';
-  document.getElementById('chatv').style.display = 'flex';
-  document.getElementById('chatv').classList.remove('hid');
-  document.getElementById('srvm').classList.add('hid');
-  document.getElementById('vcv').classList.add('hid');
-  document.getElementById('chdr-name').textContent = acc.displayName || acc.username;
-  document.getElementById('chdr-av').innerHTML = acc.avatar ? `<img src="${acc.avatar}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">` : '🎓';
-  document.getElementById('chdr-name').onclick = () => viewProfile(acc.username);
-  document.getElementById('chdr-av').onclick = () => viewProfile(acc.username);
-  document.getElementById('typinp').placeholder = `Message @${acc.username}...`;
-  const chanName = 'dm-' + [CU.username, acc.username].sort().join('-');
-  activeChan = ablyClient.channels.get(chanName);
-  const msgs = document.getElementById('msgs');
-  msgs.innerHTML = '<div style="text-align:center;font-size:12px;color:var(--mu2);padding:20px;">Loading...</div>';
-  activeChan.history({ limit: 50 }, (err, page) => {
-    msgs.innerHTML = '';
-    if (err) return;
-    lastMsgUser = '';
-    [...page.items].reverse().forEach(m => appendMsg(m.data, false));
-    scrollBottom();
-  });
-  activeChan.subscribe('msg', m => appendMsg(m.data, true));
-  document.querySelectorAll('.dmi').forEach(x => x.classList.remove('act'));
-  document.querySelectorAll('.dmi').forEach(x => { if (x.querySelector('.dpr') && x.querySelector('.dpr').textContent === '@' + acc.username) x.classList.add('act'); });
-  document.getElementById('typinp').focus();
-}
-
-function appendMsg(data, scroll) {
-  const msgs = document.getElementById('msgs');
-  const isMe = data.from === CU.username;
-  const acc = ga().find(a => a.username === data.from) || { username: data.from, avatar: null, displayName: data.displayName || data.from };
-  const time = new Date(data.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const showFull = data.from !== lastMsgUser;
-  lastMsgUser = data.from;
-  const renderText = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/@([a-zA-Z0-9]{3,9})/g, '<span class="mention">@$1</span>');
-  if (showFull) {
-    const d = document.createElement('div');
-    d.className = 'msg';
-    d.innerHTML = `<div class="msg-av" onclick="viewProfile('${data.from}')">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="msg-body"><div class="msg-head"><span class="msg-name" onclick="viewProfile('${data.from}')">${acc.displayName || acc.username}</span><span class="msg-time">${time}</span></div><div class="msg-text">${renderText(data.text)}</div></div>`;
-    msgs.appendChild(d);
-  } else {
-    const d = document.createElement('div');
-    d.className = 'msg-cont';
-    d.innerHTML = `<div class="msg-text">${renderText(data.text)}</div>`;
-    msgs.appendChild(d);
-  }
-  if (scroll) scrollBottom();
-}
-
-function scrollBottom() { const m = document.getElementById('msgs'); m.scrollTop = m.scrollHeight; }
-
-function sendMsg() {
-  const inp = document.getElementById('typinp');
-  const text = inp.value.trim();
-  if (!text || !activeChan) return;
-  inp.value = '';
-  inp.style.height = 'auto';
-  activeChan.publish('msg', { from: CU.username, text, ts: Date.now(), displayName: CU.displayName || CU.username });
-}
-
-function msgKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } }
-function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
-
-function viewProfile(uname) {
-  const acc = ga().find(a => a.username === uname);
-  if (!acc) return;
-  const vp = document.getElementById('vp-mov');
-  vp.classList.remove('hid');
-  const vpBanner = document.getElementById('vp-banner');
-  vpBanner.innerHTML = acc.banner ? `<img class="vp-banner-bg" src="${acc.banner}">` : '';
-  document.getElementById('vp-av').innerHTML = acc.avatar ? `<img src="${acc.avatar}">` : '🎓';
-  document.getElementById('vp-username').textContent = '@' + acc.username;
-  document.getElementById('vp-dn').textContent = acc.displayName || acc.username;
-  const bioEl = document.getElementById('vp-bio');
-  if (acc.bio) { bioEl.textContent = acc.bio; bioEl.style.display = 'block'; } else { bioEl.style.display = 'none'; }
-  document.getElementById('vp-dm-btn').onclick = () => { vp.classList.add('hid'); openDM(acc); };
-}
-
-function renderRail() {
-  if (!CU) return;
-  const ids = gus(CU.username);
-  const all = gsvr();
-  const ris = document.getElementById('ris');
-  ris.innerHTML = '';
-  document.getElementById('rsep').style.display = ids.length ? 'block' : 'none';
-  ids.forEach(id => {
-    const srv = all.find(s => s.id === id);
-    if (!srv) return;
-    const d = document.createElement('div');
-    d.className = 'ri';
-    d.title = srv.name;
-    d.dataset.id = id;
-    d.innerHTML = srv.icon ? `<img src="${srv.icon}">` : `<span style="font-family:Sora,sans-serif;font-weight:700;font-size:18px;color:#fff;">${srv.name.charAt(0).toUpperCase()}</span>`;
-    d.onclick = () => goServer(id);
-    ris.appendChild(d);
-  });
-}
-
-function goServer(id) {
-  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
-  activeChan = null;
-  curSrvId = id;
-  const all = gsvr();
-  const srv = all.find(s => s.id === id);
-  if (!srv) return;
-  document.querySelectorAll('.ri').forEach(x => x.classList.remove('act'));
-  document.querySelectorAll('#ris .ri').forEach(x => { if (x.dataset.id === id) x.classList.add('act'); });
-  document.getElementById('ri-fr').classList.remove('act');
-  document.getElementById('fsb').style.display = 'none';
-  document.getElementById('ssb').style.display = 'flex';
-  document.getElementById('ssbn').textContent = srv.name;
-  renderServerChannels(srv);
-  document.getElementById('fhdr').classList.add('hid');
-  document.getElementById('chdr').classList.add('hid');
-  document.getElementById('shdr').classList.add('hid');
-  document.getElementById('vchdr').classList.add('hid');
-  document.getElementById('frc').style.display = 'none';
-  document.getElementById('chatv').style.display = 'none';
-  document.getElementById('chatv').classList.add('hid');
-  document.getElementById('srvm').classList.remove('hid');
-  document.getElementById('vcv').classList.add('hid');
-  const accounts = ga();
-  const mbrHtml = srv.members.map(u => {
-    const acc = accounts.find(a => a.username === u);
-    if (!acc) return '';
-    return `<div class="mbr2" onclick="viewProfile('${u}')"><div class="mbav">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><span class="mbn">${acc.displayName || acc.username}</span>${u === srv.owner ? '<span class="mbbg">Owner</span>' : ''}</div>`;
-  }).join('');
-  const invLink = `https://schoolchat.me/invite/${srv.inviteCode}`;
-  document.getElementById('srvm').innerHTML = `
-    ${srv.banner ? `<div style="width:100%;height:120px;border-radius:14px;overflow:hidden;margin-bottom:16px;"><img src="${srv.banner}" style="width:100%;height:100%;object-fit:cover;"></div>` : ''}
-    <div class="sico">${srv.icon ? `<img src="${srv.icon}">` : '<span>' + srv.name.charAt(0).toUpperCase() + '</span>'}</div>
-    <div class="stit">${srv.name}</div>
-    <div class="ssub">Share this link to invite people.</div>
-    <div class="invb"><div class="invlnk">${invLink}</div><button class="cpybtn" onclick="cpyLink('${invLink}')">Copy</button></div>
-    <div class="mbs"><div class="mbt">Members — ${srv.members.length}</div>${mbrHtml}</div>`;
-}
-
-function renderServerChannels(srv) {
-  const textChs = srv.channels ? srv.channels.filter(c => c.type === 'text') : [];
-  const vcChs = srv.channels ? srv.channels.filter(c => c.type === 'vc') : [];
-  document.getElementById('srv-text-chs').innerHTML = textChs.map(c => `<div class="ch-item" onclick="openSrvTextCh('${c.id}','${c.name}')"><span class="ch-ico">#</span>${c.name}</div>`).join('');
-  document.getElementById('srv-vc-chs').innerHTML = vcChs.map(c => `<div class="ch-item vc" onclick="joinVC('${c.id}','${c.name}')"><span class="ch-ico">🔊</span>${c.name}</div>`).join('');
-}
-
-function openSrvTextCh(chId, chName) {
-  activeType = 'srv-text';
-  activePeer = chId;
-  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
-  document.getElementById('fhdr').classList.add('hid');
-  document.getElementById('chdr').classList.add('hid');
-  document.getElementById('shdr').classList.remove('hid');
-  document.getElementById('vchdr').classList.add('hid');
-  document.getElementById('frc').style.display = 'none';
-  document.getElementById('chatv').style.display = 'flex';
-  document.getElementById('chatv').classList.remove('hid');
-  document.getElementById('srvm').classList.add('hid');
-  document.getElementById('vcv').classList.add('hid');
-  document.getElementById('shdr-name').textContent = chName;
-  document.getElementById('typinp').placeholder = `Message #${chName}...`;
-  const chanName = `srv-${curSrvId}-${chId}`;
-  activeChan = ablyClient.channels.get(chanName);
-  const msgs = document.getElementById('msgs');
-  msgs.innerHTML = '<div style="text-align:center;font-size:12px;color:var(--mu2);padding:20px;">Loading...</div>';
-  activeChan.history({ limit: 50 }, (err, page) => {
-    msgs.innerHTML = '';
-    if (err) return;
-    lastMsgUser = '';
-    [...page.items].reverse().forEach(m => appendMsg(m.data, false));
-    scrollBottom();
-  });
-  activeChan.subscribe('msg', m => appendMsg(m.data, true));
-  document.getElementById('typinp').focus();
-}
-
-function joinVC(chId, chName) {
-  t2('Voice coming soon!', 's');
-}
-
-function toggleMic() { t2('Voice coming soon!', 's'); }
-function raiseHand() { t2('Voice coming soon!', 's'); }
-function leaveVC() { goServer(curSrvId); }
-
-function openAddCh(type) {
-  newChType = type;
-  document.getElementById('ch-name-inp').value = '';
-  document.getElementById('add-ch-mov').classList.remove('hid');
-}
-function closeAddCh() { document.getElementById('add-ch-mov').classList.add('hid'); }
-function selChType(t) { newChType = t; }
-function doAddCh() {
-  const name = document.getElementById('ch-name-inp').value.trim();
-  if (!name) { t2('Enter a channel name', 'e'); return; }
-  if (!curSrvId) return;
-  const all = gsvr();
-  const idx = all.findIndex(s => s.id === curSrvId);
-  if (idx < 0) return;
-  if (!all[idx].channels) all[idx].channels = [];
-  all[idx].channels.push({ id: gi(), name, type: newChType });
-  ssvr(all);
-  renderServerChannels(all[idx]);
-  closeAddCh();
-  t2(`#${name} created!`, 's');
-}
-
-function openSM() { document.getElementById('sm-mov').classList.remove('hid'); sStep(1); }
-function closeSM() { document.getElementById('sm-mov').classList.add('hid'); srvIcon = null; }
-let srvIcon = null;
-function sStep(s) {
-  ['ms1', 'ms2', 'ms3', 'msj'].forEach(id => document.getElementById(id).classList.add('hid'));
-  if (s === 'j') document.getElementById('msj').classList.remove('hid');
-  else document.getElementById(`ms${s}`).classList.remove('hid');
-}
-function pSIcon(e) {
-  const f = e.target.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => { srvIcon = ev.target.result; document.getElementById('upc').innerHTML = `<img src="${srvIcon}"><div class="upp">+</div>`; };
-  r.readAsDataURL(f);
-}
-function createSrv() {
-  const name = document.getElementById('sni').value.trim();
-  if (!name) { t2('Please enter a server name', 'e'); return; }
-  const inviteCode = gc(8);
-  const id = gi();
-  const srv = { id, name, icon: srvIcon || null, inviteCode, owner: CU.username, members: [CU.username], channels: [], banner: null };
-  const all = gsvr();
-  all.push(srv);
-  ssvr(all);
-  const ids = gus(CU.username);
-  ids.push(id);
-  sus(CU.username, ids);
-  closeSM();
-  renderRail();
-  t2(`"${name}" created! 🎉`, 's');
-  setTimeout(() => goServer(id), 300);
-}
-function joinSrv() {
-  const inp = document.getElementById('ji').value.trim();
-  if (!inp) { t2('Please enter an invite link', 'e'); return; }
-  let code = inp.trim();
-  const m = inp.match(/invite\/([a-zA-Z0-9\-_\.]+)/i);
-  if (m) code = m[1];
-  const all = gsvr();
-  const srv = all.find(s => s.inviteCode === code);
-  if (!srv) { t2('Invalid invite link', 'e'); return; }
-  const ids = gus(CU.username);
-  if (ids.includes(srv.id)) { t2("You're already in this server!", 'e'); return; }
-  if (!srv.members.includes(CU.username)) srv.members.push(CU.username);
-  ssvr(all);
-  ids.push(srv.id);
-  sus(CU.username, ids);
-  closeSM();
-  renderRail();
-  t2(`Joined "${srv.name}"! 🎉`, 's');
-  setTimeout(() => goServer(srv.id), 300);
-}
-function cpyLink(link) { navigator.clipboard.writeText(link).then(() => t2('Copied! 📋', 's')); }
-
-function openProfile() {
-  if (!CU) return;
-  document.getElementById('pm-av').innerHTML = CU.avatar ? `<img src="${CU.avatar}">` : '🎓';
-  document.getElementById('pm-username').textContent = '@' + CU.username;
-  document.getElementById('pm-dispname').textContent = CU.displayName || CU.username;
-  document.getElementById('pm-dn-val').textContent = CU.displayName || CU.username;
-  document.getElementById('pm-un-val').textContent = CU.username;
-  document.getElementById('pm-bio-inp').value = CU.bio || '';
-  document.getElementById('pm-mov').classList.remove('hid');
-}
-function closeProfile() { document.getElementById('pm-mov').classList.add('hid'); }
-function toggleEdit(t) {
-  const dr = document.getElementById('pm-dn-row');
-  const ur = document.getElementById('pm-un-row');
-  if (t === 'dn') {
-    dr.classList.toggle('open');
-    ur.classList.remove('open');
-    if (dr.classList.contains('open')) document.getElementById('pm-dn-inp').value = CU.displayName || CU.username;
-  } else {
-    ur.classList.toggle('open');
-    dr.classList.remove('open');
-    if (ur.classList.contains('open')) document.getElementById('pm-un-inp').value = CU.username;
-  }
-}
-function pmChangeAv(e) {
-  const f = e.target.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    CU.avatar = ev.target.result;
-    saveCurrentUser();
-    document.getElementById('pm-av').innerHTML = `<img src="${CU.avatar}">`;
-    document.getElementById('ubav').innerHTML = `<img src="${CU.avatar}">`;
-    t2('Profile picture updated!', 's');
-  };
-  r.readAsDataURL(f);
-}
-function saveDispName() {
-  const v = document.getElementById('pm-dn-inp').value.trim();
-  if (!v) { t2('Cannot be empty', 'e'); return; }
-  CU.displayName = v;
-  saveCurrentUser();
-  document.getElementById('pm-dn-val').textContent = v;
-  document.getElementById('pm-dispname').textContent = v;
-  document.getElementById('ubn').textContent = v;
-  document.getElementById('pm-dn-row').classList.remove('open');
-  t2('Display name updated!', 's');
-}
-function saveUsername() {
-  const v = document.getElementById('pm-un-inp').value.trim();
-  if (v.length < 3) { t2('Min 3 characters', 'e'); return; }
-  if (v.length > 9) { t2('Max 9 characters', 'e'); return; }
-  if (!/^[a-zA-Z0-9]+$/.test(v)) { t2('Letters and numbers only', 'e'); return; }
-  if (ga().find(a => a.username.toLowerCase() === v.toLowerCase())) { t2('Username taken', 'e'); return; }
-  const oldU = CU.username;
-  sfr(v, gfr(oldU));
-  spnd(v, gpnd(oldU));
-  sus(v, gus(oldU));
-  CU.username = v;
-  saveCurrentUser();
-  document.getElementById('pm-un-val').textContent = v;
-  document.getElementById('pm-username').textContent = '@' + v;
-  document.getElementById('pm-un-row').classList.remove('open');
-  t2('Username updated!', 's');
-}
-function saveBio() {
-  CU.bio = document.getElementById('pm-bio-inp').value.trim();
-  saveCurrentUser();
-  t2('Bio saved!', 's');
-}
-function saveCurrentUser() {
-  const acc = ga();
-  const idx = acc.findIndex(a => a.email === CU.email);
-  if (idx >= 0) { Object.assign(acc[idx], CU); sa(acc); }
-}
-function openAvPickerForSignup() { document.getElementById('avf').click(); }
-function openPmAvPicker() { document.getElementById('pmavf').click(); }
-function openPmBannerPicker() { document.getElementById('pm-banner-file').click(); }
-
-// Mobile functions
-function mobSetTab(tab, el) {
-  document.querySelectorAll('.mob-nav-btn').forEach(x => x.classList.remove('act'));
-  if (el) el.classList.add('act');
-  document.getElementById('mob-dm-panel').style.display = 'none';
-  document.getElementById('mob-you-panel').style.display = 'none';
-  if (tab === 'home') {
-    document.getElementById('mob-dm-panel').style.display = 'flex';
-    mobRenderDMs();
-  } else if (tab === 'you') {
-    document.getElementById('mob-you-panel').style.display = 'flex';
-  }
-}
-function mobShowHome() { mobSetTab('home', document.getElementById('mnb-home')); }
-function mobRenderDMs() {
-  if (!CU) return;
-  const friends = gfr(CU.username);
-  const accounts = ga();
-  const list = document.getElementById('mob-dm-list');
-  list.innerHTML = '';
-  if (!friends.length) {
-    list.innerHTML = '<div style="padding:20px 16px;font-size:14px;color:var(--mu);text-align:center;">No messages yet.</div>';
-    return;
-  }
-  friends.forEach(uname => {
-    const acc = accounts.find(a => a.username === uname) || { username: uname, avatar: null, displayName: uname };
-    const d = document.createElement('div');
-    d.className = 'mob-dm-item';
-    d.innerHTML = `<div class="mob-dm-av">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="mob-dm-info"><div class="mob-dm-name">${acc.displayName || acc.username}</div><div class="mob-dm-prev">@${acc.username}</div></div>`;
-    d.onclick = () => mobOpenDM(acc);
-    list.appendChild(d);
-  });
-}
-function mobFilterDMs(q) {
-  const items = document.querySelectorAll('.mob-dm-item');
-  items.forEach(item => {
-    const name = item.querySelector('.mob-dm-name')?.textContent.toLowerCase() || '';
-    item.style.display = name.includes(q.toLowerCase()) ? 'flex' : 'none';
-  });
-}
-function mobOpenDM(acc) {
-  if (typeof acc === 'string') acc = JSON.parse(acc);
-  document.getElementById('mob-chat-title').textContent = acc.displayName || acc.username;
-  document.getElementById('mob-chat-msgs').innerHTML = '';
-  document.getElementById('mob-chat-inp').placeholder = `Message @${acc.username}...`;
-  document.getElementById('mob-chat').style.display = 'flex';
-  const chanName = 'dm-' + [CU.username, acc.username].sort().join('-');
-  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
-  activeChan = ablyClient.channels.get(chanName);
-  activeChan.history({ limit: 50 }, (err, page) => {
-    document.getElementById('mob-chat-msgs').innerHTML = '';
-    mobLastMsgUser = '';
-    if (!err && page) [...page.items].reverse().forEach(m => mobAppendMsg(m.data, false));
-    mobScrollBottom();
-  });
-  activeChan.subscribe('msg', m => mobAppendMsg(m.data, true));
-}
-let mobLastMsgUser = '';
-function mobAppendMsg(data, scroll) {
-  const msgs = document.getElementById('mob-chat-msgs');
-  const acc = ga().find(a => a.username === data.from) || { username: data.from, avatar: null, displayName: data.displayName || data.from };
-  const time = new Date(data.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const showFull = data.from !== mobLastMsgUser;
-  mobLastMsgUser = data.from;
-  const d = document.createElement('div');
-  d.className = showFull ? 'msg' : 'msg-cont';
-  if (showFull) {
-    d.innerHTML = `<div class="msg-av" onclick="viewProfile('${data.from}')">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="msg-body"><div class="msg-head"><span class="msg-name">${acc.displayName || acc.username}</span><span class="msg-time">${time}</span></div><div class="msg-text">${data.text.replace(/@([a-zA-Z0-9]{3,9})/g, '<span class="mention">@$1</span>')}</div></div>`;
-  } else {
-    d.innerHTML = `<div class="msg-text">${data.text.replace(/@([a-zA-Z0-9]{3,9})/g, '<span class="mention">@$1</span>')}</div>`;
-  }
-  msgs.appendChild(d);
-  if (scroll) mobScrollBottom();
-}
-function mobScrollBottom() { const m = document.getElementById('mob-chat-msgs'); m.scrollTop = m.scrollHeight; }
-function mobSendMsg() {
-  const inp = document.getElementById('mob-chat-inp');
-  const text = inp.value.trim();
-  if (!text || !activeChan) return;
-  inp.value = '';
-  inp.style.height = 'auto';
-  activeChan.publish('msg', { from: CU.username, text, ts: Date.now(), displayName: CU.displayName || CU.username });
-}
-function mobMsgKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); mobSendMsg(); } }
-function mobCloseChatView() {
-  document.getElementById('mob-chat').style.display = 'none';
-  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
-  activeChan = null;
-}
-function mobRenderRail() {
-  if (!CU) return;
-  const ids = gus(CU.username);
-  const all = gsvr();
-  const ris = document.getElementById('mob-ris');
-  ris.innerHTML = '';
-  ids.forEach(id => {
-    const srv = all.find(s => s.id === id);
-    if (!srv) return;
-    const d = document.createElement('div');
-    d.className = 'mob-ri';
-    d.dataset.id = id;
-    d.innerHTML = srv.icon ? `<img src="${srv.icon}">` : `<span style="font-family:Sora,sans-serif;font-weight:700;font-size:17px;color:#fff;">${srv.name.charAt(0).toUpperCase()}</span>`;
-    d.onclick = () => goServer(id);
-    ris.appendChild(d);
-  });
-}
-
-function showPing(msg, from) {
-  const n = document.createElement('div');
-  n.className = 'ping-notif';
-  n.innerHTML = `<div class="ping-notif-title">📣 You were mentioned!</div><div class="ping-notif-body">@${from}: "${msg.substring(0, 60)}"</div>`;
-  document.body.appendChild(n);
-  setTimeout(() => n.remove(), 5000);
-}
-
-// Initialize
-window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('remember-me').checked = true;
-  if (!tryAutoLogin()) show('scr-splash');
-});
-</script>
 
 <!-- MODALS -->
 <div class="mov hid" id="sm-mov">
@@ -1536,7 +621,7 @@ window.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <div class="mov hid" id="add-ch-mov">
-  <div class="add-ch-box" style="background:#1a1a1a;border-radius:20px;padding:28px;width:100%;max-width:380px;">
+  <div style="background:#1a1a1a;border-radius:20px;padding:28px;width:100%;max-width:380px;position:relative;">
     <button class="mcls" onclick="closeAddCh()">✕</button>
     <div class="mtit2">Create Channel</div>
     <div class="iw"><label>Channel Name</label><input type="text" id="ch-name-inp" placeholder="e.g. general"></div>
@@ -1549,7 +634,6 @@ window.addEventListener('DOMContentLoaded', () => {
     <button class="pm-close" onclick="closeProfile()">✕</button>
     <div class="pm-av-wrap" onclick="openPmAvPicker()">
       <div class="pm-av" id="pm-av">🎓</div>
-      <div class="pm-av-edit"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
     </div>
     <input type="file" id="pmavf" accept="image/*" onchange="pmChangeAv(event)" style="display:none;">
     <div class="pm-body">
@@ -1567,17 +651,6 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
       <div class="pm-sec">
-        <div class="pm-sec-title">Username</div>
-        <div class="pm-field">
-          <div class="pm-field-info"><div class="pm-field-val" id="pm-un-val"></div></div>
-          <button class="pm-edit-btn" onclick="toggleEdit('un')">Edit</button>
-        </div>
-        <div class="pm-edit-row" id="pm-un-row">
-          <input class="pm-inp" id="pm-un-inp" maxlength="9">
-          <button class="pm-save-btn" onclick="saveUsername()">Save</button>
-        </div>
-      </div>
-      <div class="pm-sec">
         <div class="pm-sec-title">About Me</div>
         <textarea class="pm-inp2" id="pm-bio-inp" maxlength="200" placeholder="Write something about yourself..."></textarea>
         <button class="pm-save-btn" style="margin-top:10px;width:100%;" onclick="saveBio()">Save Bio</button>
@@ -1589,8 +662,7 @@ window.addEventListener('DOMContentLoaded', () => {
 <div class="mov hid" id="vp-mov">
   <div class="vpb">
     <button class="pm-close" onclick="document.getElementById('vp-mov').classList.add('hid')">✕</button>
-    <div class="vp-banner" id="vp-banner"></div>
-    <div class="vp-av-wrap"><div class="vp-av" id="vp-av">🎓</div></div>
+    <div class="vp-av" id="vp-av">🎓</div>
     <div class="vp-body">
       <div class="vp-username" id="vp-username"></div>
       <div class="vp-dn" id="vp-dn"></div>
@@ -1600,6 +672,886 @@ window.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
-<input type="file" id="pm-banner-file" accept="image/*" style="display:none;">
+<script>
+// ============================================================
+// SCHOOLCHAT — SHARED ACCOUNT STORAGE VIA ABLY
+// 
+// FIX: Accounts are now stored in a shared Ably channel so
+// users created on any device are visible everywhere.
+// ============================================================
+
+const ABLY_KEY = 'vuqWTg.37gGdQ:ls1i6xUxZGMHPkS8tO-dWdovGgUAwZYj0tS0tvFZl80';
+const ACCOUNTS_CHANNEL = 'sc-accounts-db'; // shared across ALL devices
+
+let ablyClient = null;
+let accountsChannel = null; // dedicated channel for account storage
+let activeChan = null, activeType = null, activePeer = null, CU = null;
+let curSrvId = null, lastMsgUser = '', newChType = 'text';
+
+// ---- SHARED ACCOUNT DATABASE ----
+// All accounts are stored as messages in the ACCOUNTS_CHANNEL.
+// Each message has name='account' and data = { ...accountObject }.
+// We always read history to get the latest state.
+// The most recent message for a given email wins.
+
+let accountsCache = null; // in-memory cache, refreshed on login/signup
+
+async function loadAccounts() {
+  return new Promise((resolve) => {
+    const ch = getAblyAccountChannel();
+    ch.history({ limit: 1000 }, (err, page) => {
+      if (err) { resolve([]); return; }
+      // Build map: email -> latest account (first item in history = most recent)
+      const map = {};
+      const items = page.items; // already newest-first
+      items.forEach(item => {
+        if (item.name === 'account' && item.data && item.data.email) {
+          const email = item.data.email.toLowerCase();
+          if (!map[email]) map[email] = item.data; // keep latest only
+        }
+      });
+      const accounts = Object.values(map);
+      accountsCache = accounts;
+      // Also cache locally for speed
+      try { localStorage.setItem('sc_acc_cache', JSON.stringify(accounts)); } catch(e) {}
+      resolve(accounts);
+    });
+  });
+}
+
+async function saveAccount(accObj) {
+  return new Promise((resolve) => {
+    const ch = getAblyAccountChannel();
+    ch.publish('account', accObj, (err) => {
+      // Update local cache too
+      if (accountsCache) {
+        const idx = accountsCache.findIndex(a => a.email.toLowerCase() === accObj.email.toLowerCase());
+        if (idx >= 0) accountsCache[idx] = accObj;
+        else accountsCache.push(accObj);
+        try { localStorage.setItem('sc_acc_cache', JSON.stringify(accountsCache)); } catch(e) {}
+      }
+      resolve(!err);
+    });
+  });
+}
+
+function getAblyAccountChannel() {
+  if (!accountsChannel) {
+    // Use anonymous Ably client just for account reads/writes
+    if (!ablyClient) {
+      const tempClient = new Ably.Realtime({ key: ABLY_KEY, clientId: 'anon-' + Date.now() });
+      accountsChannel = tempClient.channels.get(ACCOUNTS_CHANNEL);
+    } else {
+      accountsChannel = ablyClient.channels.get(ACCOUNTS_CHANNEL);
+    }
+  }
+  return accountsChannel;
+}
+
+function getCachedAccounts() {
+  if (accountsCache) return accountsCache;
+  try { return JSON.parse(localStorage.getItem('sc_acc_cache') || '[]'); } catch(e) { return []; }
+}
+
+// ---- LOCAL-ONLY STORAGE (friends, pending, servers, user-servers) ----
+// These still use localStorage since they're per-user state
+const gfr = (u) => { try { return JSON.parse(localStorage.getItem('sc_f_' + u) || '[]'); } catch(e) { return []; } };
+const sfr = (u, a) => localStorage.setItem('sc_f_' + u, JSON.stringify(a));
+const gpnd = (u) => { try { return JSON.parse(localStorage.getItem('sc_p_' + u) || '[]'); } catch(e) { return []; } };
+const spnd = (u, a) => localStorage.setItem('sc_p_' + u, JSON.stringify(a));
+const gsvr = () => { try { return JSON.parse(localStorage.getItem('sc_s') || '[]'); } catch(e) { return []; } };
+const ssvr = (s) => localStorage.setItem('sc_s', JSON.stringify(s));
+const gus = (u) => { try { return JSON.parse(localStorage.getItem('sc_us_' + u) || '[]'); } catch(e) { return []; } };
+const sus = (u, a) => localStorage.setItem('sc_us_' + u, JSON.stringify(a));
+const gi = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const gc = (n) => { const c = 'abcdefghijklmnopqrstuvwxyz0123456789'; return Array.from({length:n},()=>c[Math.floor(Math.random()*c.length)]).join(''); };
+
+function setLoading(show, msg = 'Loading...') {
+  const ov = document.getElementById('load-ov');
+  document.getElementById('load-txt').textContent = msg;
+  ov.classList.toggle('hid', !show);
+}
+
+function t2(msg, tp = 's') {
+  const t = document.getElementById('tst');
+  t.textContent = msg;
+  t.className = `tst ${tp} show`;
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function show(id) {
+  document.querySelectorAll('.scr').forEach(s => s.classList.add('hid'));
+  document.getElementById('cp').classList.add('hid');
+  document.getElementById('mob-nav').style.display = 'none';
+  document.getElementById('mob-rail').style.display = 'none';
+  setLoading(false);
+  document.getElementById(id).classList.remove('hid');
+}
+
+// ---- AUTH ----
+
+async function chkE() {
+  const v = document.getElementById('se').value.trim();
+  const n = document.getElementById('sen');
+  const i = document.getElementById('se');
+  if (!v) { n.textContent = ''; i.className = ''; return; }
+  const accounts = getCachedAccounts();
+  const tk = accounts.find(a => a.email.toLowerCase() === v.toLowerCase());
+  if (tk) { n.textContent = '⚠ Email already registered'; n.className = 'inote e'; i.className = 'ei'; }
+  else { n.textContent = '✓ Looks good'; n.className = 'inote g'; i.className = 'oi'; }
+}
+
+async function goPass() {
+  const v = document.getElementById('se').value.trim();
+  if (!v) { t2('Please enter your email', 'e'); return; }
+  if (!/^\S+@\S+\.\S+$/.test(v)) { t2('Invalid email', 'e'); return; }
+  // Check live accounts
+  setLoading(true, 'Checking email...');
+  const accounts = await loadAccounts();
+  setLoading(false);
+  if (accounts.find(a => a.email.toLowerCase() === v.toLowerCase())) { t2('Email taken — log in instead', 'e'); return; }
+  show('scr-pass');
+}
+
+function chkStr() {
+  const v = document.getElementById('pi').value;
+  let s = 0;
+  if (v.length >= 6) s++;
+  if (/[A-Z]/.test(v)) s++;
+  if (/[0-9]/.test(v)) s++;
+  if (/[!@#$%^&*]/.test(v)) s++;
+}
+
+function chkCnf() {
+  const p = document.getElementById('pi').value;
+  const c = document.getElementById('cp2').value;
+  const n = document.getElementById('cn');
+  const i = document.getElementById('cp2');
+  if (!c) { n.textContent = ''; i.className = ''; return; }
+  if (p === c) { n.textContent = '✓ Matches'; n.className = 'inote g'; i.className = 'oi'; }
+  else { n.textContent = '✗ No match'; n.className = 'inote e'; i.className = 'ei'; }
+}
+
+function goUser() {
+  const p = document.getElementById('pi').value;
+  const c = document.getElementById('cp2').value;
+  if (p.length < 6) { t2('Password must be 6+ characters', 'e'); return; }
+  if (p !== c) { t2('Passwords do not match', 'e'); return; }
+  show('scr-user');
+}
+
+let cAv = null;
+function prevAv(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => { cAv = ev.target.result; document.getElementById('avp').innerHTML = `<img src="${cAv}" alt="">`; };
+  r.readAsDataURL(f);
+}
+
+async function chkU() {
+  const v = document.getElementById('ui').value;
+  const n = document.getElementById('un');
+  const lo = v.length >= 3 && v.length <= 9;
+  const co = /^[a-zA-Z0-9]*$/.test(v);
+  const accounts = getCachedAccounts();
+  const tk = accounts.find(a => a.username && a.username.toLowerCase() === v.toLowerCase());
+  const setr = (id, p) => { const e = document.getElementById(id); if (p) e.classList.add('pass'); else e.classList.remove('pass'); };
+  setr('rl1', lo); setr('rl2', co); setr('rl3', !tk);
+  if (!v) { n.textContent = ''; return; }
+  if (tk) { n.textContent = '✗ Username taken'; n.className = 'inote e'; }
+  else if (v.length < 3) { n.textContent = 'Too short'; n.className = 'inote e'; }
+  else if (lo && co) { n.textContent = '✓ Available!'; n.className = 'inote g'; }
+  else n.textContent = '';
+}
+
+async function createAcc() {
+  const em = document.getElementById('se').value.trim();
+  const ps = document.getElementById('pi').value;
+  const un = document.getElementById('ui').value.trim();
+  if (un.length < 3) { t2('Username must be at least 3 characters', 'e'); return; }
+  if (un.length > 9) { t2('Username too long', 'e'); return; }
+  if (!/^[a-zA-Z0-9]+$/.test(un)) { t2('Letters and numbers only', 'e'); return; }
+
+  const btn = document.getElementById('create-btn');
+  btn.disabled = true;
+  btn.textContent = 'Creating...';
+  setLoading(true, 'Creating your account...');
+
+  // Fresh check against shared DB
+  const accounts = await loadAccounts();
+  if (accounts.find(a => a.username && a.username.toLowerCase() === un.toLowerCase())) {
+    setLoading(false); btn.disabled = false; btn.textContent = 'Create Account ✓';
+    t2('Username already taken', 'e'); return;
+  }
+  if (accounts.find(a => a.email.toLowerCase() === em.toLowerCase())) {
+    setLoading(false); btn.disabled = false; btn.textContent = 'Create Account ✓';
+    t2('Email already registered', 'e'); return;
+  }
+
+  const newUser = { email: em, pass: ps, username: un, displayName: un, avatar: cAv || null, bio: '', createdAt: Date.now() };
+  const ok = await saveAccount(newUser);
+  setLoading(false);
+  btn.disabled = false;
+  btn.textContent = 'Create Account ✓';
+  if (!ok) { t2('Error creating account. Try again.', 'e'); return; }
+  t2('Account created! 🎉', 's');
+  setTimeout(() => enterChat(newUser), 800);
+}
+
+async function doLogin() {
+  const em = document.getElementById('le').value.trim();
+  const ps = document.getElementById('lp').value;
+  if (!em || !ps) { t2('Please fill in all fields', 'e'); return; }
+
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.textContent = 'Logging in...';
+  setLoading(true, 'Logging in...');
+
+  const accounts = await loadAccounts();
+  const acc = accounts.find(a => a.email.toLowerCase() === em.toLowerCase() && a.pass === ps);
+  
+  setLoading(false);
+  btn.disabled = false;
+  btn.textContent = 'Log In →';
+
+  if (!acc) {
+    document.getElementById('lpn').textContent = '✗ Incorrect email or password';
+    document.getElementById('lpn').className = 'inote e';
+    return;
+  }
+  if (document.getElementById('remember-me').checked) {
+    localStorage.setItem('sc_remember', JSON.stringify({ email: acc.email, pass: acc.pass }));
+  }
+  t2(`Welcome back, ${acc.displayName || acc.username}! 👋`, 's');
+  setTimeout(() => enterChat(acc), 600);
+}
+
+function logout() {
+  if (ablyClient) { try { ablyClient.close(); } catch(e) {} ablyClient = null; }
+  accountsChannel = null;
+  localStorage.removeItem('sc_remember');
+  CU = null; activeChan = null; curSrvId = null;
+  document.getElementById('cp').classList.add('hid');
+  document.getElementById('mob-nav').style.display = 'none';
+  document.getElementById('mob-rail').style.display = 'none';
+  show('scr-splash');
+}
+
+async function tryAutoLogin() {
+  const saved = localStorage.getItem('sc_remember');
+  if (!saved) return false;
+  try {
+    const u = JSON.parse(saved);
+    setLoading(true, 'Signing you in...');
+    const accounts = await loadAccounts();
+    const acc = accounts.find(a => a.email === u.email && a.pass === u.pass);
+    if (acc) { enterChat(acc); return true; }
+  } catch(e) {}
+  localStorage.removeItem('sc_remember');
+  setLoading(false);
+  return false;
+}
+
+function enterChat(u) {
+  CU = u;
+  document.querySelectorAll('.scr').forEach(s => s.classList.add('hid'));
+  document.getElementById('cp').classList.remove('hid');
+  document.getElementById('pwrd').style.display = 'none';
+  document.getElementById('ubn').textContent = CU.displayName || CU.username;
+  const ubav = document.getElementById('ubav');
+  ubav.innerHTML = CU.avatar ? `<img src="${CU.avatar}">` : '🎓';
+  document.getElementById('sni').value = CU.username + "'s server";
+  setLoading(false);
+
+  ablyClient = new Ably.Realtime({ key: ABLY_KEY, clientId: CU.username });
+  // Reuse ablyClient for account channel
+  accountsChannel = ablyClient.channels.get(ACCOUNTS_CHANNEL);
+
+  ablyClient.connection.on('connected', () => {
+    const notify = ablyClient.channels.get('notify-' + CU.username);
+    notify.subscribe('friend-request', m => { t2(`Friend request from ${m.data.from}!`, 's'); renderPndBadge(); });
+  });
+
+  if (window.innerWidth <= 768) {
+    document.getElementById('mob-nav').style.display = 'flex';
+    document.getElementById('mob-rail').style.display = 'flex';
+    mobSetTab('home', document.getElementById('mnb-home'));
+    mobRenderRail();
+    mobRenderDMs();
+    document.getElementById('mob-you-name').textContent = CU.displayName || CU.username;
+    document.getElementById('mob-you-tag').textContent = '@' + CU.username;
+    document.getElementById('mob-you-av').innerHTML = CU.avatar ? `<img src="${CU.avatar}">` : '🎓';
+    document.getElementById('mob-nav-av').innerHTML = CU.avatar ? `<img src="${CU.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : '🎓';
+  } else {
+    goFr();
+  }
+  renderRail();
+}
+
+function filterDMs(q) {
+  document.querySelectorAll('.dmi').forEach(item => {
+    const name = item.querySelector('.dnm')?.textContent.toLowerCase() || '';
+    item.style.display = name.includes(q.toLowerCase()) ? 'flex' : 'none';
+  });
+}
+
+function goFr() {
+  curSrvId = null;
+  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
+  activeChan = null; activeType = null; activePeer = null;
+  document.querySelectorAll('.ri').forEach(x => x.classList.remove('act'));
+  const riFr = document.getElementById('ri-fr');
+  if (riFr) riFr.classList.add('act');
+  document.getElementById('fsb').style.display = 'flex';
+  document.getElementById('ssb').style.display = 'none';
+  document.getElementById('fhdr').classList.remove('hid');
+  document.getElementById('chdr').classList.add('hid');
+  document.getElementById('shdr').classList.add('hid');
+  document.getElementById('frc').style.display = 'flex';
+  document.getElementById('chatv').style.display = 'none';
+  document.getElementById('chatv').classList.add('hid');
+  document.getElementById('srvm').classList.add('hid');
+  document.getElementById('vcv').classList.add('hid');
+  renderDMs();
+  setT('online', document.getElementById('t-on'));
+  renderPndBadge();
+}
+
+function renderDMs() {
+  if (!CU) return;
+  const friends = gfr(CU.username);
+  const accounts = getCachedAccounts();
+  const dml = document.getElementById('dml');
+  dml.innerHTML = '';
+  if (!friends.length) {
+    dml.innerHTML = '<div style="padding:10px 14px;font-size:12px;color:var(--mu2);">No DMs yet.<br>Add friends to start chatting!</div>';
+    return;
+  }
+  friends.forEach(uname => {
+    const acc = accounts.find(a => a.username === uname);
+    if (!acc) return;
+    const d = document.createElement('div');
+    d.className = 'dmi';
+    d.innerHTML = `<div class="dav">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}<div class="sdot sof"></div></div><div class="din"><div class="dnm">${acc.displayName || acc.username}</div><div class="dpr">@${acc.username}</div></div>`;
+    d.onclick = () => openDM(acc);
+    dml.appendChild(d);
+  });
+}
+
+function setT(tab, el) {
+  document.querySelectorAll('.tp').forEach(x => x.classList.remove('act'));
+  if (el) el.classList.add('act');
+  const tv = document.getElementById('tv');
+  const afp = document.getElementById('afp');
+  if (tab === 'add-friend') { tv.style.display = 'none'; afp.style.display = 'block'; return; }
+  tv.style.display = 'block'; afp.style.display = 'none';
+  renderTV(tab);
+}
+
+function renderTV(tab) {
+  const tv = document.getElementById('tv');
+  if (!tv || !CU) { if (tv) tv.innerHTML = ''; return; }
+  const friends = gfr(CU.username);
+  const accounts = getCachedAccounts();
+  if (tab === 'online') {
+    tv.innerHTML = !friends.length ? `<div class="est"><div class="esi">🤝</div><div class="et">No friends yet!</div><div class="es">Use Add Friend to connect.</div></div>` : `<div class="est"><div class="esi">😴</div><div class="et">No one's online right now</div></div>`;
+    return;
+  }
+  if (tab === 'all') {
+    if (!friends.length) { tv.innerHTML = `<div class="est"><div class="esi">👥</div><div class="et">No friends yet</div></div>`; return; }
+    let h = `<div class="fsl">ALL FRIENDS — ${friends.length}</div>`;
+    friends.forEach(uname => {
+      const acc = accounts.find(a => a.username === uname);
+      if (!acc) return;
+      h += `<div class="frr"><div class="frav" onclick="viewProfile('${uname}')">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="fri2"><div class="frn">${acc.displayName || acc.username}</div><div class="frst">@${acc.username}</div></div><div class="fract"><div class="frb" onclick="openDM(${JSON.stringify({username:acc.username,avatar:acc.avatar||null,displayName:acc.displayName||acc.username}).replace(/"/g,'&quot;')})"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-width="2"><path d="M21 15C21 16.6 19.6 18 18 18H6L3 21V9C3 7.4 4.4 6 6 6H18C19.6 6 21 7.4 21 9V15Z"/></svg></div></div></div>`;
+    });
+    tv.innerHTML = h;
+    return;
+  }
+  if (tab === 'pending') {
+    const pend = gpnd(CU.username);
+    if (!pend.length) { tv.innerHTML = `<div class="est"><div class="esi">📭</div><div class="et">No Pending Requests</div></div>`; return; }
+    let h = `<div class="fsl">INCOMING — ${pend.length}</div>`;
+    pend.forEach((req, i) => {
+      const acc = accounts.find(a => a.username === req.from);
+      if (!acc) return;
+      h += `<div class="pr"><div class="frav">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="fri2"><div class="frn">${acc.displayName || acc.username}</div><div class="frst">@${acc.username}</div></div><div class="pact"><button class="pacc" onclick="accReq('${req.from}',${i})">Accept</button><button class="pdec" onclick="decReq(${i})">Decline</button></div></div>`;
+    });
+    tv.innerHTML = h;
+  }
+}
+
+function renderPndBadge() {
+  if (!CU) return;
+  const p = gpnd(CU.username);
+  const tPnd = document.getElementById('t-pnd');
+  tPnd.innerHTML = p.length ? `Pending <span style="background:#fff;color:#000;border-radius:999px;padding:0 5px;font-size:10px;margin-left:4px;">${p.length}</span>` : 'Pending';
+}
+
+function accReq(fromU, i) {
+  const mf = gfr(CU.username); const tf = gfr(fromU);
+  if (!mf.includes(fromU)) mf.push(fromU);
+  if (!tf.includes(CU.username)) tf.push(CU.username);
+  sfr(CU.username, mf); sfr(fromU, tf);
+  const p = gpnd(CU.username); p.splice(i, 1); spnd(CU.username, p);
+  t2(`You and ${fromU} are now friends! 🎉`, 's');
+  renderTV('pending'); renderPndBadge(); renderDMs();
+}
+
+function decReq(i) {
+  const p = gpnd(CU.username); p.splice(i, 1); spnd(CU.username, p);
+  renderTV('pending'); renderPndBadge();
+}
+
+function afCh() {
+  const v = document.getElementById('afi').value.trim();
+  document.getElementById('afb').disabled = !v;
+  document.getElementById('afr').classList.add('hid');
+}
+
+async function doSrch() {
+  const v = document.getElementById('afi').value.trim();
+  if (!v) { t2('Enter a username', 'e'); return; }
+  if (v.toLowerCase() === CU.username.toLowerCase()) { t2("You can't add yourself!", 'e'); return; }
+  const res = document.getElementById('afr');
+  res.className = 'afrs';
+  res.innerHTML = '<div style="flex:1;font-size:13px;color:var(--mu);">🔍 Searching...</div>';
+  // Search shared accounts
+  const accounts = await loadAccounts();
+  const target = accounts.find(a => a.username.toLowerCase() === v.toLowerCase());
+  if (target) { _showSearchResult(target); return; }
+  t2('User not found. Make sure they have an account.', 'e');
+  res.innerHTML = '<div style="flex:1;font-size:14px;color:var(--red);">✗ User not found.</div>';
+}
+
+function _showSearchResult(target) {
+  const res = document.getElementById('afr');
+  const mf = gfr(CU.username);
+  if (mf.includes(target.username)) {
+    res.className = 'afrs';
+    res.innerHTML = `<div class="afrav">${target.avatar ? `<img src="${target.avatar}">` : '🎓'}</div><div class="afri"><div class="afrn">${target.displayName || target.username}</div><div class="afrs2">Already friends! 🎉</div></div>`;
+    return;
+  }
+  res.className = 'afrs';
+  res.innerHTML = `<div class="afrav">${target.avatar ? `<img src="${target.avatar}">` : '🎓'}</div><div class="afri"><div class="afrn">${target.displayName || target.username}</div><div class="afrs2">@${target.username}</div></div><button class="afab" onclick="confAdd('${target.username}')">Add Friend</button>`;
+}
+
+function confAdd(uname) {
+  const accounts = getCachedAccounts();
+  const target = accounts.find(a => a.username === uname);
+  if (!target) return;
+  const p = gpnd(uname); p.push({ from: CU.username }); spnd(uname, p);
+  document.getElementById('afr').innerHTML = `<div class="afrav">${target.avatar ? `<img src="${target.avatar}">` : '🎓'}</div><div class="afri"><div class="afrn">${target.displayName || target.username}</div><div class="afrs2" style="color:#aaa;">✓ Friend request sent!</div></div>`;
+  t2(`Request sent to ${uname}!`, 's');
+  document.getElementById('afi').value = '';
+  document.getElementById('afb').disabled = true;
+}
+
+function openDM(acc) {
+  if (typeof acc === 'string') acc = JSON.parse(acc);
+  activeType = 'dm'; activePeer = acc.username;
+  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
+  document.getElementById('fhdr').classList.add('hid');
+  document.getElementById('chdr').classList.remove('hid');
+  document.getElementById('shdr').classList.add('hid');
+  document.getElementById('frc').style.display = 'none';
+  document.getElementById('chatv').style.display = 'flex';
+  document.getElementById('chatv').classList.remove('hid');
+  document.getElementById('srvm').classList.add('hid');
+  document.getElementById('vcv').classList.add('hid');
+  document.getElementById('chdr-name').textContent = acc.displayName || acc.username;
+  document.getElementById('chdr-av').innerHTML = acc.avatar ? `<img src="${acc.avatar}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">` : '🎓';
+  document.getElementById('chdr-name').onclick = () => viewProfile(acc.username);
+  document.getElementById('chdr-av').onclick = () => viewProfile(acc.username);
+  document.getElementById('typinp').placeholder = `Message @${acc.username}...`;
+  const chanName = 'dm-' + [CU.username, acc.username].sort().join('-');
+  activeChan = ablyClient.channels.get(chanName);
+  const msgs = document.getElementById('msgs');
+  msgs.innerHTML = '<div style="text-align:center;font-size:12px;color:var(--mu2);padding:20px;">Loading...</div>';
+  activeChan.history({ limit: 50 }, (err, page) => {
+    msgs.innerHTML = ''; lastMsgUser = '';
+    if (!err) [...page.items].reverse().forEach(m => appendMsg(m.data, false));
+    scrollBottom();
+  });
+  activeChan.subscribe('msg', m => appendMsg(m.data, true));
+  document.querySelectorAll('.dmi').forEach(x => x.classList.remove('act'));
+  document.querySelectorAll('.dmi').forEach(x => { if (x.querySelector('.dpr') && x.querySelector('.dpr').textContent === '@' + acc.username) x.classList.add('act'); });
+  document.getElementById('typinp').focus();
+}
+
+function appendMsg(data, scroll) {
+  const msgs = document.getElementById('msgs');
+  const accounts = getCachedAccounts();
+  const acc = accounts.find(a => a.username === data.from) || { username: data.from, avatar: null, displayName: data.displayName || data.from };
+  const time = new Date(data.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const showFull = data.from !== lastMsgUser;
+  lastMsgUser = data.from;
+  const renderText = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/@([a-zA-Z0-9]{3,9})/g,'<span class="mention">@$1</span>');
+  const d = document.createElement('div');
+  if (showFull) {
+    d.className = 'msg';
+    d.innerHTML = `<div class="msg-av" onclick="viewProfile('${data.from}')">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="msg-body"><div class="msg-head"><span class="msg-name" onclick="viewProfile('${data.from}')">${acc.displayName || acc.username}</span><span class="msg-time">${time}</span></div><div class="msg-text">${renderText(data.text)}</div></div>`;
+  } else {
+    d.className = 'msg-cont';
+    d.innerHTML = `<div class="msg-text">${renderText(data.text)}</div>`;
+  }
+  msgs.appendChild(d);
+  if (scroll) scrollBottom();
+}
+
+function scrollBottom() { const m = document.getElementById('msgs'); m.scrollTop = m.scrollHeight; }
+
+function sendMsg() {
+  const inp = document.getElementById('typinp');
+  const text = inp.value.trim();
+  if (!text || !activeChan) return;
+  inp.value = ''; inp.style.height = 'auto';
+  activeChan.publish('msg', { from: CU.username, text, ts: Date.now(), displayName: CU.displayName || CU.username });
+}
+
+function msgKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } }
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
+
+async function viewProfile(uname) {
+  const accounts = getCachedAccounts();
+  let acc = accounts.find(a => a.username === uname);
+  if (!acc) {
+    // Try fresh load
+    const fresh = await loadAccounts();
+    acc = fresh.find(a => a.username === uname);
+  }
+  if (!acc) { t2('User not found', 'e'); return; }
+  const vp = document.getElementById('vp-mov');
+  vp.classList.remove('hid');
+  document.getElementById('vp-av').innerHTML = acc.avatar ? `<img src="${acc.avatar}">` : '🎓';
+  document.getElementById('vp-username').textContent = '@' + acc.username;
+  document.getElementById('vp-dn').textContent = acc.displayName || acc.username;
+  const bioEl = document.getElementById('vp-bio');
+  if (acc.bio) { bioEl.textContent = acc.bio; bioEl.style.display = 'block'; } else { bioEl.style.display = 'none'; }
+  document.getElementById('vp-dm-btn').onclick = () => { vp.classList.add('hid'); openDM(acc); };
+}
+
+// ---- SERVERS ----
+function renderRail() {
+  if (!CU) return;
+  const ids = gus(CU.username);
+  const all = gsvr();
+  const ris = document.getElementById('ris');
+  ris.innerHTML = '';
+  document.getElementById('rsep').style.display = ids.length ? 'block' : 'none';
+  ids.forEach(id => {
+    const srv = all.find(s => s.id === id);
+    if (!srv) return;
+    const d = document.createElement('div');
+    d.className = 'ri'; d.title = srv.name; d.dataset.id = id;
+    d.innerHTML = srv.icon ? `<img src="${srv.icon}">` : `<span style="font-family:Sora,sans-serif;font-weight:700;font-size:18px;color:#fff;">${srv.name.charAt(0).toUpperCase()}</span>`;
+    d.onclick = () => goServer(id);
+    ris.appendChild(d);
+  });
+}
+
+function goServer(id) {
+  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
+  activeChan = null; curSrvId = id;
+  const all = gsvr();
+  const srv = all.find(s => s.id === id);
+  if (!srv) return;
+  document.querySelectorAll('.ri').forEach(x => x.classList.remove('act'));
+  document.querySelectorAll('#ris .ri').forEach(x => { if (x.dataset.id === id) x.classList.add('act'); });
+  document.getElementById('ri-fr').classList.remove('act');
+  document.getElementById('fsb').style.display = 'none';
+  document.getElementById('ssb').style.display = 'flex';
+  document.getElementById('ssbn').textContent = srv.name;
+  renderServerChannels(srv);
+  document.getElementById('fhdr').classList.add('hid');
+  document.getElementById('chdr').classList.add('hid');
+  document.getElementById('shdr').classList.add('hid');
+  document.getElementById('frc').style.display = 'none';
+  document.getElementById('chatv').style.display = 'none';
+  document.getElementById('chatv').classList.add('hid');
+  document.getElementById('srvm').classList.remove('hid');
+  document.getElementById('vcv').classList.add('hid');
+  const accounts = getCachedAccounts();
+  const mbrHtml = srv.members.map(u => {
+    const acc = accounts.find(a => a.username === u);
+    if (!acc) return '';
+    return `<div class="mbr2" onclick="viewProfile('${u}')"><div class="mbav">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><span class="mbn">${acc.displayName || acc.username}</span>${u === srv.owner ? '<span class="mbbg">Owner</span>' : ''}</div>`;
+  }).join('');
+  const invLink = `https://schoolchat.me/invite/${srv.inviteCode}`;
+  document.getElementById('srvm').innerHTML = `
+    <div class="sico">${srv.icon ? `<img src="${srv.icon}">` : '<span>' + srv.name.charAt(0).toUpperCase() + '</span>'}</div>
+    <div class="stit">${srv.name}</div>
+    <div class="ssub">Share this link to invite people.</div>
+    <div class="invb"><div class="invlnk">${invLink}</div><button class="cpybtn" onclick="cpyLink('${invLink}')">Copy</button></div>
+    <div class="mbs"><div class="mbt">Members — ${srv.members.length}</div>${mbrHtml}</div>`;
+}
+
+function renderServerChannels(srv) {
+  const textChs = srv.channels ? srv.channels.filter(c => c.type === 'text') : [];
+  const vcChs = srv.channels ? srv.channels.filter(c => c.type === 'vc') : [];
+  document.getElementById('srv-text-chs').innerHTML = textChs.map(c => `<div class="ch-item" onclick="openSrvTextCh('${c.id}','${c.name}')"><span class="ch-ico">#</span>${c.name}</div>`).join('');
+  document.getElementById('srv-vc-chs').innerHTML = vcChs.map(c => `<div class="ch-item" onclick="joinVC('${c.id}','${c.name}')"><span class="ch-ico">🔊</span>${c.name}</div>`).join('');
+}
+
+function openSrvTextCh(chId, chName) {
+  activeType = 'srv-text'; activePeer = chId;
+  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
+  document.getElementById('fhdr').classList.add('hid');
+  document.getElementById('chdr').classList.add('hid');
+  document.getElementById('shdr').classList.remove('hid');
+  document.getElementById('frc').style.display = 'none';
+  document.getElementById('chatv').style.display = 'flex';
+  document.getElementById('chatv').classList.remove('hid');
+  document.getElementById('srvm').classList.add('hid');
+  document.getElementById('vcv').classList.add('hid');
+  document.getElementById('shdr-name').textContent = chName;
+  document.getElementById('typinp').placeholder = `Message #${chName}...`;
+  const chanName = `srv-${curSrvId}-${chId}`;
+  activeChan = ablyClient.channels.get(chanName);
+  const msgs = document.getElementById('msgs');
+  msgs.innerHTML = '<div style="text-align:center;font-size:12px;color:var(--mu2);padding:20px;">Loading...</div>';
+  activeChan.history({ limit: 50 }, (err, page) => {
+    msgs.innerHTML = ''; lastMsgUser = '';
+    if (!err) [...page.items].reverse().forEach(m => appendMsg(m.data, false));
+    scrollBottom();
+  });
+  activeChan.subscribe('msg', m => appendMsg(m.data, true));
+  document.getElementById('typinp').focus();
+}
+
+function joinVC(chId, chName) { t2('Voice coming soon!', 's'); }
+
+function openAddCh(type) { newChType = type; document.getElementById('ch-name-inp').value = ''; document.getElementById('add-ch-mov').classList.remove('hid'); }
+function closeAddCh() { document.getElementById('add-ch-mov').classList.add('hid'); }
+function doAddCh() {
+  const name = document.getElementById('ch-name-inp').value.trim();
+  if (!name) { t2('Enter a channel name', 'e'); return; }
+  if (!curSrvId) return;
+  const all = gsvr();
+  const idx = all.findIndex(s => s.id === curSrvId);
+  if (idx < 0) return;
+  if (!all[idx].channels) all[idx].channels = [];
+  all[idx].channels.push({ id: gi(), name, type: newChType });
+  ssvr(all); renderServerChannels(all[idx]); closeAddCh();
+  t2(`#${name} created!`, 's');
+}
+
+function openSM() { document.getElementById('sm-mov').classList.remove('hid'); sStep(1); }
+function closeSM() { document.getElementById('sm-mov').classList.add('hid'); srvIcon = null; }
+let srvIcon = null;
+function sStep(s) {
+  ['ms1','ms2','ms3','msj'].forEach(id => document.getElementById(id).classList.add('hid'));
+  if (s === 'j') document.getElementById('msj').classList.remove('hid');
+  else document.getElementById(`ms${s}`).classList.remove('hid');
+}
+function pSIcon(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => { srvIcon = ev.target.result; document.getElementById('upc').innerHTML = `<img src="${srvIcon}"><div class="upp">+</div>`; };
+  r.readAsDataURL(f);
+}
+function createSrv() {
+  const name = document.getElementById('sni').value.trim();
+  if (!name) { t2('Please enter a server name', 'e'); return; }
+  const inviteCode = gc(8); const id = gi();
+  const srv = { id, name, icon: srvIcon || null, inviteCode, owner: CU.username, members: [CU.username], channels: [] };
+  const all = gsvr(); all.push(srv); ssvr(all);
+  const ids = gus(CU.username); ids.push(id); sus(CU.username, ids);
+  closeSM(); renderRail();
+  t2(`"${name}" created! 🎉`, 's');
+  setTimeout(() => goServer(id), 300);
+}
+function joinSrv() {
+  const inp = document.getElementById('ji').value.trim();
+  if (!inp) { t2('Please enter an invite link', 'e'); return; }
+  let code = inp.trim();
+  const m = inp.match(/invite\/([a-zA-Z0-9\-_\.]+)/i);
+  if (m) code = m[1];
+  const all = gsvr(); const srv = all.find(s => s.inviteCode === code);
+  if (!srv) { t2('Invalid invite link', 'e'); return; }
+  const ids = gus(CU.username);
+  if (ids.includes(srv.id)) { t2("You're already in this server!", 'e'); return; }
+  if (!srv.members.includes(CU.username)) srv.members.push(CU.username);
+  ssvr(all); ids.push(srv.id); sus(CU.username, ids);
+  closeSM(); renderRail();
+  t2(`Joined "${srv.name}"! 🎉`, 's');
+  setTimeout(() => goServer(srv.id), 300);
+}
+function cpyLink(link) { navigator.clipboard.writeText(link).then(() => t2('Copied! 📋', 's')); }
+
+// ---- PROFILE ----
+function openProfile() {
+  if (!CU) return;
+  document.getElementById('pm-av').innerHTML = CU.avatar ? `<img src="${CU.avatar}">` : '🎓';
+  document.getElementById('pm-username').textContent = '@' + CU.username;
+  document.getElementById('pm-dispname').textContent = CU.displayName || CU.username;
+  document.getElementById('pm-dn-val').textContent = CU.displayName || CU.username;
+  document.getElementById('pm-bio-inp').value = CU.bio || '';
+  document.getElementById('pm-mov').classList.remove('hid');
+}
+function closeProfile() { document.getElementById('pm-mov').classList.add('hid'); }
+function toggleEdit(t) {
+  const dr = document.getElementById('pm-dn-row');
+  if (t === 'dn') {
+    dr.classList.toggle('open');
+    if (dr.classList.contains('open')) document.getElementById('pm-dn-inp').value = CU.displayName || CU.username;
+  }
+}
+function pmChangeAv(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = async ev => {
+    CU.avatar = ev.target.result;
+    await saveCurrentUser();
+    document.getElementById('pm-av').innerHTML = `<img src="${CU.avatar}">`;
+    document.getElementById('ubav').innerHTML = `<img src="${CU.avatar}">`;
+    t2('Profile picture updated!', 's');
+  };
+  r.readAsDataURL(f);
+}
+async function saveDispName() {
+  const v = document.getElementById('pm-dn-inp').value.trim();
+  if (!v) { t2('Cannot be empty', 'e'); return; }
+  CU.displayName = v;
+  await saveCurrentUser();
+  document.getElementById('pm-dn-val').textContent = v;
+  document.getElementById('pm-dispname').textContent = v;
+  document.getElementById('ubn').textContent = v;
+  document.getElementById('pm-dn-row').classList.remove('open');
+  t2('Display name updated!', 's');
+}
+async function saveBio() {
+  CU.bio = document.getElementById('pm-bio-inp').value.trim();
+  await saveCurrentUser();
+  t2('Bio saved!', 's');
+}
+async function saveCurrentUser() {
+  await saveAccount(CU);
+  // Update local cache
+  if (accountsCache) {
+    const idx = accountsCache.findIndex(a => a.email === CU.email);
+    if (idx >= 0) accountsCache[idx] = { ...CU };
+    else accountsCache.push({ ...CU });
+  }
+}
+function openAvPickerForSignup() { document.getElementById('avf').click(); }
+function openPmAvPicker() { document.getElementById('pmavf').click(); }
+
+// ---- MOBILE ----
+function mobSetTab(tab, el) {
+  document.querySelectorAll('.mob-nav-btn').forEach(x => x.classList.remove('act'));
+  if (el) el.classList.add('act');
+  document.getElementById('mob-dm-panel').style.display = 'none';
+  document.getElementById('mob-you-panel').style.display = 'none';
+  if (tab === 'home') { document.getElementById('mob-dm-panel').style.display = 'flex'; mobRenderDMs(); }
+  else if (tab === 'you') { document.getElementById('mob-you-panel').style.display = 'flex'; }
+}
+function mobShowHome() { mobSetTab('home', document.getElementById('mnb-home')); }
+function mobRenderDMs() {
+  if (!CU) return;
+  const friends = gfr(CU.username);
+  const accounts = getCachedAccounts();
+  const list = document.getElementById('mob-dm-list');
+  list.innerHTML = '';
+  if (!friends.length) { list.innerHTML = '<div style="padding:20px 16px;font-size:14px;color:var(--mu);text-align:center;">No messages yet.<br>Add friends to start chatting!</div>'; return; }
+  friends.forEach(uname => {
+    const acc = accounts.find(a => a.username === uname) || { username: uname, avatar: null, displayName: uname };
+    const d = document.createElement('div');
+    d.className = 'mob-dm-item';
+    d.innerHTML = `<div class="mob-dm-av">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="mob-dm-info"><div class="mob-dm-name">${acc.displayName || acc.username}</div><div style="font-size:12px;color:var(--mu);">@${acc.username}</div></div>`;
+    d.onclick = () => mobOpenDM(acc);
+    list.appendChild(d);
+  });
+}
+function mobFilterDMs(q) {
+  document.querySelectorAll('.mob-dm-item').forEach(item => {
+    const name = item.querySelector('.mob-dm-name')?.textContent.toLowerCase() || '';
+    item.style.display = name.includes(q.toLowerCase()) ? 'flex' : 'none';
+  });
+}
+function mobOpenDM(acc) {
+  if (typeof acc === 'string') acc = JSON.parse(acc);
+  document.getElementById('mob-chat-title').textContent = acc.displayName || acc.username;
+  document.getElementById('mob-chat-msgs').innerHTML = '';
+  document.getElementById('mob-chat-inp').placeholder = `Message @${acc.username}...`;
+  document.getElementById('mob-chat').style.display = 'flex';
+  const chanName = 'dm-' + [CU.username, acc.username].sort().join('-');
+  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
+  activeChan = ablyClient.channels.get(chanName);
+  activeChan.history({ limit: 50 }, (err, page) => {
+    document.getElementById('mob-chat-msgs').innerHTML = '';
+    mobLastMsgUser = '';
+    if (!err && page) [...page.items].reverse().forEach(m => mobAppendMsg(m.data, false));
+    mobScrollBottom();
+  });
+  activeChan.subscribe('msg', m => mobAppendMsg(m.data, true));
+}
+let mobLastMsgUser = '';
+function mobAppendMsg(data, scroll) {
+  const msgs = document.getElementById('mob-chat-msgs');
+  const accounts = getCachedAccounts();
+  const acc = accounts.find(a => a.username === data.from) || { username: data.from, avatar: null, displayName: data.displayName || data.from };
+  const time = new Date(data.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const showFull = data.from !== mobLastMsgUser;
+  mobLastMsgUser = data.from;
+  const d = document.createElement('div');
+  d.className = showFull ? 'msg' : 'msg-cont';
+  if (showFull) {
+    d.innerHTML = `<div class="msg-av">${acc.avatar ? `<img src="${acc.avatar}">` : '🎓'}</div><div class="msg-body"><div class="msg-head"><span class="msg-name">${acc.displayName || acc.username}</span><span class="msg-time">${time}</span></div><div class="msg-text">${data.text.replace(/@([a-zA-Z0-9]{3,9})/g,'<span class="mention">@$1</span>')}</div></div>`;
+  } else {
+    d.innerHTML = `<div class="msg-text">${data.text.replace(/@([a-zA-Z0-9]{3,9})/g,'<span class="mention">@$1</span>')}</div>`;
+  }
+  msgs.appendChild(d);
+  if (scroll) mobScrollBottom();
+}
+function mobScrollBottom() { const m = document.getElementById('mob-chat-msgs'); m.scrollTop = m.scrollHeight; }
+function mobSendMsg() {
+  const inp = document.getElementById('mob-chat-inp');
+  const text = inp.value.trim();
+  if (!text || !activeChan) return;
+  inp.value = ''; inp.style.height = 'auto';
+  activeChan.publish('msg', { from: CU.username, text, ts: Date.now(), displayName: CU.displayName || CU.username });
+}
+function mobMsgKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); mobSendMsg(); } }
+function mobCloseChatView() {
+  document.getElementById('mob-chat').style.display = 'none';
+  if (activeChan) try { activeChan.unsubscribe(); } catch(e) {}
+  activeChan = null;
+}
+function mobRenderRail() {
+  if (!CU) return;
+  const ids = gus(CU.username);
+  const all = gsvr();
+  const ris = document.getElementById('mob-ris');
+  ris.innerHTML = '';
+  ids.forEach(id => {
+    const srv = all.find(s => s.id === id);
+    if (!srv) return;
+    const d = document.createElement('div');
+    d.className = 'mob-ri'; d.dataset.id = id;
+    d.innerHTML = srv.icon ? `<img src="${srv.icon}">` : `<span style="font-family:Sora,sans-serif;font-weight:700;font-size:17px;color:#fff;">${srv.name.charAt(0).toUpperCase()}</span>`;
+    d.onclick = () => goServer(id);
+    ris.appendChild(d);
+  });
+}
+
+// ---- INIT ----
+window.addEventListener('DOMContentLoaded', async () => {
+  setLoading(true, 'Loading SchoolChat...');
+  // Pre-load the anonymous Ably client for account reads before login
+  const tempClient = new Ably.Realtime({ key: ABLY_KEY, clientId: 'loader-' + Date.now() });
+  accountsChannel = tempClient.channels.get(ACCOUNTS_CHANNEL);
+  const didAutoLogin = await tryAutoLogin();
+  if (!didAutoLogin) {
+    setLoading(false);
+    show('scr-splash');
+    tempClient.close();
+    accountsChannel = null;
+  }
+});
+</script>
 </body>
 </html>
