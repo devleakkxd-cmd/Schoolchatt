@@ -753,12 +753,57 @@ function getCachedAccounts() {
   try { return JSON.parse(localStorage.getItem('sc_acc_cache') || '[]'); } catch(e) { return []; }
 }
 
-// ---- LOCAL-ONLY STORAGE (friends, pending, servers, user-servers) ----
-// These still use localStorage since they're per-user state
-const gfr = (u) => { try { return JSON.parse(localStorage.getItem('sc_f_' + u) || '[]'); } catch(e) { return []; } };
-const sfr = (u, a) => localStorage.setItem('sc_f_' + u, JSON.stringify(a));
-const gpnd = (u) => { try { return JSON.parse(localStorage.getItem('sc_p_' + u) || '[]'); } catch(e) { return []; } };
-const spnd = (u, a) => localStorage.setItem('sc_p_' + u, JSON.stringify(a));
+// ---- SHARED FRIEND/PENDING STORAGE VIA ABLY ----
+// Each user has a channel "ud-USERNAME" where we publish their friends list
+// and pending requests. Latest message of each type wins.
+// We also keep a local cache for instant reads.
+
+const userDataCache = {}; // { username: { friends: [], pending: [] } }
+
+async function loadUserData(username) {
+  return new Promise((resolve) => {
+    const ch = ablyClient ? ablyClient.channels.get('ud-' + username) : null;
+    if (!ch) { resolve({ friends: [], pending: [] }); return; }
+    ch.history({ limit: 100 }, (err, page) => {
+      if (err) { resolve(userDataCache[username] || { friends: [], pending: [] }); return; }
+      let friends = null, pending = null;
+      for (const item of page.items) {
+        if (item.name === 'friends' && friends === null) friends = item.data;
+        if (item.name === 'pending' && pending === null) pending = item.data;
+        if (friends !== null && pending !== null) break;
+      }
+      const result = { friends: friends || [], pending: pending || [] };
+      userDataCache[username] = result;
+      resolve(result);
+    });
+  });
+}
+
+async function saveUserData(username, type, value) {
+  // type = 'friends' or 'pending', value = array
+  if (!userDataCache[username]) userDataCache[username] = { friends: [], pending: [] };
+  userDataCache[username][type] = value;
+  return new Promise((resolve) => {
+    const ch = ablyClient ? ablyClient.channels.get('ud-' + username) : null;
+    if (!ch) { resolve(false); return; }
+    ch.publish(type, value, (err) => resolve(!err));
+  });
+}
+
+// Sync helpers — load fresh from Ably then return value
+async function gfr(u) {
+  const d = await loadUserData(u); return d.friends;
+}
+async function sfr(u, a) { await saveUserData(u, 'friends', a); }
+async function gpnd(u) {
+  const d = await loadUserData(u); return d.pending;
+}
+async function spnd(u, a) { await saveUserData(u, 'pending', a); }
+
+// Sync cache reads (no await, uses cached value)
+function gfrSync(u) { return (userDataCache[u] || {}).friends || []; }
+function gpndSync(u) { return (userDataCache[u] || {}).pending || []; }
+
 const gsvr = () => { try { return JSON.parse(localStorage.getItem('sc_s') || '[]'); } catch(e) { return []; } };
 const ssvr = (s) => localStorage.setItem('sc_s', JSON.stringify(s));
 const gus = (u) => { try { return JSON.parse(localStorage.getItem('sc_us_' + u) || '[]'); } catch(e) { return []; } };
