@@ -22,7 +22,7 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
 
 /* ── AUTH SCREENS ── */
 .scr{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .25s;}
-.scr.gone{opacity:0;pointer-events:none;}
+.scr.gone{display:none!important;}
 .card{background:var(--s1);border:1px solid var(--b);border-radius:22px;padding:30px 24px;width:100%;max-width:380px;position:relative;overflow-y:auto;max-height:calc(100svh - 40px);}
 .la{text-align:center;margin-bottom:24px;}
 .lico{width:64px;height:64px;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
@@ -227,7 +227,7 @@ html,body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);
   #deskcp{display:none!important;}
   #mobcp{display:flex!important;}
 }
-#mobcp{display:none;position:fixed;inset:0;z-index:10;flex-direction:column;background:var(--bg);}
+#mobcp{position:fixed;inset:0;z-index:10;flex-direction:column;background:var(--bg);display:none;}#mobcp.hid{display:none!important;}
 
 /* Mobile rail (left strip) */
 .mrl{position:fixed;top:0;left:0;bottom:56px;width:60px;z-index:21;background:#000;border-right:1px solid var(--b2);display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:4px;overflow-y:auto;overflow-x:hidden;}
@@ -828,14 +828,37 @@ function t2(msg,tp='s'){const t=document.getElementById('tst');t.textContent=msg
 function showScr(id){
   document.querySelectorAll('.scr').forEach(s=>s.classList.add('gone'));
   document.getElementById('deskcp').classList.add('hid');
-  const m=document.getElementById('mobcp');m.style.display='none';
+  document.getElementById('mobcp').classList.add('hid');
   document.getElementById(id).classList.remove('gone');
   document.getElementById('pwrd').style.display='';
 }
 
 /* ── AUTH ── */
 function chkE(){const v=document.getElementById('se').value.trim(),n=document.getElementById('sen'),i=document.getElementById('se');const tk=ga().find(a=>a.email.toLowerCase()===v.toLowerCase());if(!v){n.textContent='';i.className='';return;}if(tk){n.textContent='⚠ Email already registered';n.className='inote e';i.className='ei';}else{n.textContent='✓ Looks good';n.className='inote g';i.className='oi';}}
-function goPass(){const v=document.getElementById('se').value.trim();if(!v){t2('Enter your email','e');return;}if(!/^\S+@\S+\.\S+$/.test(v)){t2('Invalid email','e');return;}if(ga().find(a=>a.email.toLowerCase()===v.toLowerCase())){t2('Email taken — log in instead','e');return;}showScr('scr-pass');}
+async function goPass(){
+  const v=document.getElementById('se').value.trim();
+  const btn=document.querySelector('#scr-signup .btn.bw');
+  if(!v){t2('Enter your email','e');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){t2('Enter a valid email address','e');return;}
+  if(ga().find(a=>a.email.toLowerCase()===v.toLowerCase())){t2('Email already registered — log in instead','e');return;}
+  // Validate email actually exists using AbstractAPI
+  btn.textContent='Checking email...';btn.disabled=true;
+  try{
+    const res=await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=0a0955fe11e84b0ba6f53027e5e66de9&email=${encodeURIComponent(v)}`);
+    const data=await res.json();
+    btn.textContent='Continue →';btn.disabled=false;
+    // Check if email is valid and deliverable
+    if(data.is_valid_format&&data.is_valid_format.value===false){t2('Invalid email format','e');return;}
+    if(data.deliverability==='UNDELIVERABLE'){t2('This email does not exist. Please use a real email.','e');return;}
+    if(data.is_disposable_email&&data.is_disposable_email.value===true){t2('Disposable emails are not allowed','e');return;}
+    // If API says UNKNOWN it might still be ok — allow it
+    showScr('scr-pass');
+  }catch(err){
+    btn.textContent='Continue →';btn.disabled=false;
+    // If API fails just continue (don't block user)
+    showScr('scr-pass');
+  }
+}
 function chkStr(){const v=document.getElementById('pi').value,f=document.getElementById('pf'),l=document.getElementById('pl');let s=0;if(v.length>=6)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[!@#$%^&*]/.test(v))s++;const m=[{w:'0%',c:'transparent',t:'—'},{w:'30%',c:'#f44',t:'Weak'},{w:'55%',c:'#888',t:'Fair'},{w:'80%',c:'#aaa',t:'Strong'},{w:'100%',c:'#fff',t:'Unbreakable 🔒'}];f.style.width=m[s].w;f.style.background=m[s].c;l.textContent='Strength: '+m[s].t;}
 function chkCnf(){const p=document.getElementById('pi').value,c=document.getElementById('cp2').value,n=document.getElementById('cn'),i=document.getElementById('cp2');if(!c){n.textContent='';i.className='';return;}if(p===c){n.textContent='✓ Matches';n.className='inote g';i.className='oi';}else{n.textContent='✗ No match';n.className='inote e';i.className='ei';}}
 function goUser(){const p=document.getElementById('pi').value,c=document.getElementById('cp2').value;if(p.length<6){t2('Password must be 6+ characters','e');return;}if(p!==c){t2('Passwords do not match','e');return;}showScr('scr-user');}
@@ -868,7 +891,8 @@ function logout(){
   chan=null;CU=null;curSrv=null;
   localStorage.removeItem('sc_rem');
   document.getElementById('deskcp').classList.add('hid');
-  const mc=document.getElementById('mobcp');mc.style.display='none';
+  document.getElementById('mobcp').style.display='none';
+  document.getElementById('mobcp').classList.add('hid');
   document.getElementById('mnav').classList.add('gone');
   document.getElementById('mrl').classList.add('gone');
   showScr('scr-splash');
@@ -881,11 +905,13 @@ function enterChat(u){
   document.getElementById('pwrd').style.display='none';
   if(isMob()){
     document.getElementById('mobcp').style.display='flex';
+    document.getElementById('mobcp').classList.remove('hid');
     document.getElementById('deskcp').classList.add('hid');
     mInit();
   } else {
     document.getElementById('deskcp').classList.remove('hid');
     document.getElementById('mobcp').style.display='none';
+    document.getElementById('mobcp').classList.add('hid');
     dInit();
   }
   // Connect Ably
